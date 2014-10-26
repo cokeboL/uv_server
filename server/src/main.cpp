@@ -1,27 +1,82 @@
 #include <stdio.h>
 
 #include "commen.h"
-#include "uv.h"
+#include "connector/connector.h"
+#include <stdlib.h>
+
+#define ASSERT(expr)   
+/*
+do {                                                     \
+	if(!expr)){                                      \
+	fprintf(stderr,                                       \
+	"Assertion failed in %s on line %d: %s\n",    \
+	__FILE__,                                     \
+	__LINE__,                                     \
+	#expr);                                       \
+	abort();                                              \
+	}                                                    \
+}while(0)
+*/
+
+#define container_of(ptr, type, member) \
+    ((type *)((char *)(ptr) - offsetof(type, member)))
+
+typedef struct{
+	uv_tcp_t handle;
+	uv_shutdown_t shutdown_req;
+} conn_rec;
+
+static uv_tcp_t tcp_server;
 
 
-int64_t counter = 0;
 
-void wait_for_a_while(uv_idle_t* handle, int status) {
-    counter++;
-	printf("-- count: %d\n", counter);
-    if (counter >= 10e6)
-        uv_idle_stop(handle);
+
+uv_timer_t timer;
+void tickHandler(uv_timer_t *req, int status) 
+{
+	
+	static unsigned int count = 0;
+	count++;
+	printf("-- tickHandler count: %d\n", count);
+	if(uv_is_active((uv_handle_t*) req))
+	{
+		printf("------ alive\n");
+	}
+	else
+	{
+		printf("------ not alive\n");
+	}
+	//uv_close((uv_handle_t*) &timer, close_cb);
+
+}
+
+void tickHandler2(uv_timer_t *req, int status) 
+{
+	
+	static unsigned int count = 0;
+	count++;
+	printf("-- tickHandler2 count: %d\n", count);
+	if(uv_is_active((uv_handle_t*) &timer))
+	{
+		printf("------ alive\n");
+	}
+	else
+	{
+		printf("------ not alive\n");
+	}
+
+
 }
 
 int main()
 {
-    uv_idle_t idler;
+	
+	start_server_at_port(7000);
 
-    uv_idle_init(uv_default_loop(), &idler);
-    uv_idle_start(&idler, wait_for_a_while);
-
-    printf("Idling...\n");
     uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 
+	close_server();
+
     return 0;
+
 }

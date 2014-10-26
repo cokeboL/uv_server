@@ -7,5 +7,21 @@
 
 #endif
 
+#include "uv.h"
+
+
+class SOCKMSG
+{
+public:
+	SOCKMSG(int idx_, char *msg_):
+		idx(idx_),
+		msg(msg_)
+	{
+	}
+
+	int idx;
+	char *msg;
+};
+
 
 #endif // _COMMEN_H_
