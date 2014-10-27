@@ -2,9 +2,9 @@
 #define _RPC_H_
 
 #include "commen.h"
-#include "uv.h"
 
 void rpc_push_msg(SOCKMSG*);
 
+void start_rpc();
 
 #endif // _RPC_H_

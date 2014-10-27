@@ -2,6 +2,7 @@
 
 #include "commen.h"
 #include "connector/connector.h"
+#include "rpc/rpc.h"
 #include <stdlib.h>
 
 #define ASSERT(expr)   
@@ -71,11 +72,13 @@ void tickHandler2(uv_timer_t *req, int status)
 int main()
 {
 	
-	start_server_at_port(7000);
+	start_listen(7000);
+
+	start_rpc();
 
     uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 
-	close_server();
+	close_listener();
 
     return 0;
 

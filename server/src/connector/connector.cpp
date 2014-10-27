@@ -122,16 +122,16 @@ static void read_data(uv_stream_t* handle, ssize_t nread, uv_buf_t buf)
 				return;
 			}
 		case pack_msg_readed:
-			int idx = 0;
+			short cmd = 0;
 			for(int j=0; j < pack_head_bytes-pack_len_bytes; j++)
 			{
-				idx = (idx << 8) | sock->buf[j];
+				cmd = (cmd << 8) | sock->buf[j];
 			}
-			int msg_len = sock->len_total - pack_len_bytes;
-			char *msg = (char*)malloc(msg_len);
-			memcpy(msg, sock->buf + pack_len_bytes, msg_len);
+			int len = sock->len_total - pack_len_bytes;
+			char *msg = (char*)malloc(len);
+			memcpy(msg, sock->buf + pack_len_bytes, len);
 
-			SOCKMSG *sock_msg = new SOCKMSG(idx, msg);
+			SOCKMSG *sock_msg = new SOCKMSG(sock, cmd, msg, len);
 
 			free(sock->buf);
 			sock->buf = 0;
@@ -193,7 +193,7 @@ void new_connection(uv_stream_t *server, int status) {
     }
 }
 
-int start_server_at_port(int port)
+void start_listen(int port)
 {
 	uv_mutex_init(&sock_id_mutex);
 	uv_rwlock_init(&id_client_map_rwlock);
@@ -208,13 +208,12 @@ int start_server_at_port(int port)
     int r = uv_listen((uv_stream_t*) tcp_server, 128, new_connection);
     if (r) {
 		free(tcp_server);
-        return 1;
     }
 
-	return 0;
+	return;
 }
 
-void close_server()
+void close_listener()
 {
 	uv_mutex_destroy(&sock_id_mutex);
 	uv_rwlock_destroy(&id_client_map_rwlock);
