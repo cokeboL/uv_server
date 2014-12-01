@@ -48,7 +48,7 @@ public:
 	{
 	}
 
-	SOCKMSG()
+	~SOCKMSG()
 	{
 		free(msg);
 	}

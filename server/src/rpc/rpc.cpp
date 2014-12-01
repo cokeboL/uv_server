@@ -42,11 +42,11 @@ static void rpc_recv_loop(uv_work_t *req)
 		uv_mutex_lock(&rpc_recv_queue_mutex);
 		SOCKMSG* msg = rpc_recv_queue.front();
 		
-		rpc_recv_queue.pop();
 		uv_mutex_unlock(&rpc_recv_queue_mutex);
 
 		rpc_recv_handler(req, msg);
 
+		rpc_recv_queue.pop();
 		delete msg;
 	}
 }
