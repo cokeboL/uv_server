@@ -71,7 +71,9 @@ static void read_data(uv_stream_t* handle, ssize_t nread, uv_buf_t buf)
 		return;
 	}
 
-	int i = 0, len = 0;
+	int i = 0;
+	short cmd = 0;
+	unsigned int len = 0;
 	while(i < nread)
 	{
 		switch(sock->status){
@@ -82,33 +84,34 @@ static void read_data(uv_stream_t* handle, ssize_t nread, uv_buf_t buf)
 			}
 			for(;i<nread;)
 			{
-				if(sock->len_readed < pack_len_bytes)
+				i++;
+				sock->len_readed++;
+				if(sock->len_readed == pack_head_bytes)
 				{
-					sock->len_readed++;
-					sock->len_total = (sock->len_total << 8) | (unsigned char)(buf.base[i++]);					
-				}
-				else
-				{
+					sock->len_total = *(short*)buf.base;	
+					cmd = *(short*)(buf.base+2);
 					if(sock->len_total > (1<<28) )
 					{
 						free(buf.base);
 						goto RELEASE;
 					}
-					sock->buf = (char*)malloc(sock->len_total);
-						sock->status = pack_len_readed;
-					sock->len_readed = 0;
+					sock->buf = (char*)malloc(sock->len_total - pack_head_bytes);
+					sock->status = pack_len_readed;
+					//sock->len_readed = 0;
 					break;
 				}
+
 			}
-			if (i == nread)
+			/*if (i == nread)
 			{
 				free(buf.base);
 				return;
 			}
+			*/
 		case pack_len_readed:
 			len = sock->len_total - sock->len_readed < (nread-i) ? (sock->len_total - sock->len_readed) : (nread-i);
 			if (len > 0) {
-				memcpy(sock->buf + sock->len_readed, buf.base + i, len);
+				memcpy(sock->buf, buf.base + i, len);
 				sock->len_readed += len;
 				i += len;
 			}
@@ -116,21 +119,26 @@ static void read_data(uv_stream_t* handle, ssize_t nread, uv_buf_t buf)
 			{
 				sock->status = pack_msg_readed;
 			}
+			/*
 			else
 			{
 				free(buf.base);
 				return;
 			}
+			*/
 		case pack_msg_readed:
+			/*
 			short cmd = 0;
 			for(int j=0; j < pack_head_bytes-pack_len_bytes; j++)
 			{
 				cmd = (cmd << 8) | sock->buf[j];
 			}
-			int len = sock->len_total - pack_len_bytes;
+			*/
+			//short cmd = *(short*)(sock->buf);
+			int len = sock->len_total - pack_head_bytes + 1;
 			char *msg = (char*)malloc(len);
-			memcpy(msg, sock->buf + pack_len_bytes, len);
-
+			memcpy(msg, sock->buf, len-1);
+			msg[len-1] = 0;
 			SOCKMSG *sock_msg = new SOCKMSG(sock, cmd, msg, len);
 
 			free(sock->buf);
