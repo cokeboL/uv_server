@@ -30,7 +30,7 @@ void rpc_push_msg(SOCKMSG* msg)
 //处理消息，比如push到lua里处理
 static void rpc_recv_handler(uv_work_t *req, SOCKMSG* msg)
 {
-	printf("id: %d  msg: %s\n", msg->sock->id,msg->msg);
+	printf("id: %d %d msg: %s\n", msg->sock->id,msg->cmd, msg->msg);
 }
 
 static void rpc_recv_loop(uv_work_t *req)
@@ -86,8 +86,10 @@ void rpc_send_loop(uv_async_t *handle, int status )
 
 		if (msg->sock)
 		{
-			if(uv_write(write_req, (uv_stream_t*)msg->sock->handler, &uv_buf, 1, send_handler))
+			if(0 == uv_write(write_req, (uv_stream_t*)msg->sock->handler, &uv_buf, 1, send_handler))
 			{
+				free(send_buf);
+				free(write_req);
 				rpc_send_queue.pop();
 				delete msg;
 			}

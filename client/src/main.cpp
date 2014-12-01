@@ -19,6 +19,7 @@ static void send_handler(uv_write_t* req, int status)
 		free(req->data);
 		free(req);
 	}
+	printf("xxx\n");
 }
 
 
@@ -58,7 +59,11 @@ void foo()
 		uv_write_t* write_req = (uv_write_t*) malloc(sizeof(uv_write_t));
 		write_req->data = send_buf;
 
-		uv_write(write_req, (uv_stream_t*)&socket, &uv_buf, 1, send_handler);
+		if(0 == uv_write(write_req, (uv_stream_t*)&socket, &uv_buf, 1, send_handler))
+		{
+			free(send_buf);
+			free(write_req);
+		}
 
 		Sleep(5);
 	}
