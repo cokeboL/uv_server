@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\connector\connector.cpp">
+      <Filter>connector</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rpc\rpc.cpp">
+      <Filter>rpc</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\commen.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\connector\connector.h">
+      <Filter>connector</Filter>
+    </ClInclude>
+    <ClInclude Include="src\rpc\rpc.h">
+      <Filter>rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\log\log.h">
+      <Filter>log</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{9f5c57d2-08c4-4c83-a8d6-aa4d73575edc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="connector">
+      <UniqueIdentifier>{c48d1d77-3d79-491b-af2c-4d1d48d4db09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rpc">
+      <UniqueIdentifier>{ff040cac-6b18-47cf-8d3f-e0bad427e139}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="log">
+      <UniqueIdentifier>{9474b306-e75b-4417-b97d-de9620e4ffe9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

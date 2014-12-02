@@ -31,7 +31,7 @@ void foo()
 
 	uv_connect_t connect;
 
-	struct sockaddr_in dest = uv_ip4_addr("127.0.0.1", 7000);
+	struct sockaddr_in dest = uv_ip4_addr("127.0.0.1", 7001);
 
 	
 	int ret = uv_tcp_connect(&connect, &socket, dest, on_connect);

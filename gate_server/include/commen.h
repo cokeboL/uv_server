@@ -3,8 +3,6 @@
 
 #if defined(_WIN32)
     #pragma comment(lib,"ws2_32.lib")
-	#define _CRT_SECURE_NO_DEPRECATE 
-	//#param warning(disable:4996) 
 #else
 
 #endif
