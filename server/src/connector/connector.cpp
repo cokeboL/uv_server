@@ -10,8 +10,13 @@ static uv_mutex_t sock_id_mutex;
 static uv_rwlock_t id_client_map_rwlock;
 
 //map
-static std::unordered_map<unsigned int, Sock*> id_map;
+static std::unordered_map<Sock*, Sock*> id_map;
 static std::unordered_map<uv_tcp_t*, Sock*> client_map;
+
+Sock *get_id_map(Sock* sock)
+{
+	return id_map[sock];
+}
 
 static int get_sock_id()
 {
@@ -31,6 +36,7 @@ static uv_buf_t alloc_buf(uv_handle_t* handle, size_t suggested_size)
 
 static void close_cb(uv_handle_t* handle)
 {
+	printf("close cb\n");
 }
 
 static void read_data(uv_stream_t* handle, ssize_t nread, uv_buf_t buf)
@@ -157,7 +163,7 @@ RELEASE:
 	if(sock)
 	{
 		uv_rwlock_wrlock(&id_client_map_rwlock);
-		id_map.erase(sock->id);
+		id_map.erase(sock);
 		client_map.erase(sock->handler);
 		uv_rwlock_wrunlock(&id_client_map_rwlock);
 		
@@ -167,7 +173,7 @@ RELEASE:
 		}
 		delete sock;
 	} 
-	uv_close((uv_handle_t*)handle, close_cb);	
+	uv_close((uv_handle_t*)tcp, close_cb);	
 }
 
 static void read_cb(uv_stream_t* handle, ssize_t nread, uv_buf_t buf)
@@ -188,7 +194,7 @@ void new_connection(uv_stream_t *server, int status) {
 		Sock* sock = new Sock(get_sock_id(), client);
 		
 		uv_rwlock_wrlock(&id_client_map_rwlock);
-		id_map[sock->id] = sock;
+		id_map[sock] = sock;
 		client_map[client] = sock;
 		uv_rwlock_wrunlock(&id_client_map_rwlock);
 

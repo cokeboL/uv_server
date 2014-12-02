@@ -65,7 +65,7 @@ void foo()
 			free(write_req);
 		}
 
-		Sleep(5);
+		Sleep(10);
 	}
 }
 

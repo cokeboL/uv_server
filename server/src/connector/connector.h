@@ -9,4 +9,6 @@ void start_listen(int port);
 
 void close_listener();
 
+Sock *get_id_map(Sock* sock);
+
 #endif // _CONNECTOR_H_

@@ -1,5 +1,6 @@
 #include "rpc.h"
 #include <queue>
+#include "connector/connector.h"
 
 //lock
 static uv_mutex_t rpc_recv_queue_mutex;
@@ -30,7 +31,10 @@ void rpc_push_msg(SOCKMSG* msg)
 //处理消息，比如push到lua里处理
 static void rpc_recv_handler(uv_work_t *req, SOCKMSG* msg)
 {
-	printf("id: %d %d msg: %s\n", msg->sock->id,msg->cmd, msg->msg);
+	if(get_id_map(msg->sock))
+	{
+		printf("id: %d %d msg: %s\n", msg->sock->id,msg->cmd, msg->msg);
+	}
 }
 
 static void rpc_recv_loop(uv_work_t *req)
@@ -41,12 +45,13 @@ static void rpc_recv_loop(uv_work_t *req)
 		
 		uv_mutex_lock(&rpc_recv_queue_mutex);
 		SOCKMSG* msg = rpc_recv_queue.front();
-		
+
+		rpc_recv_queue.pop();
+
 		uv_mutex_unlock(&rpc_recv_queue_mutex);
 
 		rpc_recv_handler(req, msg);
 
-		rpc_recv_queue.pop();
 		delete msg;
 	}
 }
