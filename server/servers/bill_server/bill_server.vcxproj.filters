@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{16fcf911-575e-42d9-aa24-81fa28d6430e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{09a3b87e-7934-428b-a981-42b4c74e5940}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\connector">
+      <UniqueIdentifier>{04965e0b-4c2b-4a77-a906-364e1e9e0654}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\rpc">
+      <UniqueIdentifier>{06459f53-ed06-48ff-953e-ebe01173482e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\log">
+      <UniqueIdentifier>{b826dde3-4fd7-4851-8cd8-77b9cbf21bb1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\commen.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\connector\connector.h">
+      <Filter>src\connector</Filter>
+    </ClInclude>
+    <ClInclude Include="src\log\log.h">
+      <Filter>src\log</Filter>
+    </ClInclude>
+    <ClInclude Include="src\rpc\rpc.h">
+      <Filter>src\rpc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\connector\connector.cpp">
+      <Filter>src\connector</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rpc\rpc.cpp">
+      <Filter>src\rpc</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
