@@ -1,1 +1,0 @@
-del ..\\data\\*.lua
