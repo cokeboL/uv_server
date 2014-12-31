@@ -14,7 +14,23 @@
 #endif
 
 #include "uv.h"
+#include "message.h"
 
+#include <iostream>
+using namespace std;
+
+
+typedef enum{
+	SOCKTYPE_NONE,
+	SOCKTYPE_BILLSERVER,
+	SOCKTYPE_DATASERVER,
+	SOCKTYPE_GATESERVER,
+	SOCKTYPE_LOGSERVER,
+	SOCKTYPE_LOGICSERVER,
+	
+	SOCKTYPE_CLIENT,
+	SOCKTYPE_MAX
+}SOCKTYPE;
 
 class Sock
 {
@@ -25,9 +41,17 @@ public:
 		len_total(0), 
 		len_readed(0), 
 		buf(0), 
-		handler(client)
+		handler(client),
+		socktype(SOCKTYPE_NONE)
 	{
 	}
+	
+	/*
+	inline void setType(SOCKTYPE t)
+	{
+		socktype = t;
+	}
+	*/
 
 	int id;
 	int status;
@@ -35,6 +59,7 @@ public:
 	int len_readed;
 	char* buf;
 	uv_tcp_t* handler;
+	SOCKTYPE socktype;
 };
 
 class SOCKMSG

@@ -28,6 +28,12 @@
     <Filter Include="src\connector">
       <UniqueIdentifier>{6ad3da4f-bdf0-4c39-9f5f-1c531bf50da0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\handler">
+      <UniqueIdentifier>{549e1360-35f3-4c1d-a619-21c68ba6c7df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\handler\Register">
+      <UniqueIdentifier>{22013314-380f-4b26-b032-ca0a0ae63253}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\commen.h">
@@ -42,6 +48,15 @@
     <ClInclude Include="src\rpc\rpc.h">
       <Filter>src\rpc</Filter>
     </ClInclude>
+    <ClInclude Include="src\handler\handler.h">
+      <Filter>src\handler</Filter>
+    </ClInclude>
+    <ClInclude Include="include\message.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\handler\Regist\Regist.h">
+      <Filter>src\handler\Register</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -52,6 +67,12 @@
     </ClCompile>
     <ClCompile Include="src\rpc\rpc.cpp">
       <Filter>src\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handler\handler.cpp">
+      <Filter>src\handler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handler\Regist\Regist.cpp">
+      <Filter>src\handler\Register</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

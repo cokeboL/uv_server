@@ -71,12 +71,9 @@ void tickHandler2(uv_timer_t *req, int status)
 
 int main()
 {
-	
-	start_listen(7000);
-
 	start_rpc();
 
-    uv_run(uv_default_loop(), UV_RUN_DEFAULT);
+	start_listen(7000);
 
 	close_listener();
 

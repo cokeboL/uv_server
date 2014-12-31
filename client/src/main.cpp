@@ -6,9 +6,20 @@
 #include <thread>
 #include <math.h>
 
+static uv_buf_t alloc_buf(uv_handle_t* handle, size_t suggested_size)
+{
+	return uv_buf_init((char *)malloc(suggested_size), suggested_size);
+}
+
+
+
 void on_connect(uv_connect_t* req, int status)
 {
 	printf("-- client on_connect status: %d!\n", status);
+	if(status == 0)
+	{
+		//uv_read_start((uv_stream_t*)client, alloc_buf, read_data);
+	}
 }
 
 
@@ -23,7 +34,7 @@ static void send_handler(uv_write_t* req, int status)
 }
 
 
-void foo() 
+void foo()
 {
 	uv_tcp_t socket;
 	uv_loop_t *loop = uv_default_loop();
@@ -36,7 +47,7 @@ void foo()
 	
 	int ret = uv_tcp_connect(&connect, &socket, dest, on_connect);
 	printf("ret: %d\n", ret);
-	uv_run(loop, UV_RUN_DEFAULT);
+	//uv_run(loop, UV_RUN_DEFAULT);
 	
 	unsigned int packNum = 0;
 	unsigned int packLen = 30;
