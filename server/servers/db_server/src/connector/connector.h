@@ -10,6 +10,7 @@ extern uv_rwlock_t id_client_map_rwlock;
 
 extern std::unordered_map<unsigned int, Sock*> id_map;
 extern std::unordered_map<uv_tcp_t*, Sock*> client_map;
+extern std::unordered_map<uv_tcp_t*, Sock*> server_map;
 
 //extern uv_tcp_t connector_server;
 //extern uv_tcp_t connector_connect;

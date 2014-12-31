@@ -15,10 +15,12 @@ void handle_msg(uv_work_t *req, SOCKMSG* msg)
 	case CMD_INIT:
 
 		break;
+	case CMD_LOG:
+		break;
 	default:
 		break;
 	}
-	std::cout << "id: " << msg->sock->id << msg->cmd << msg->action << " msg: " << msg->msg << std::endl;
+	//std::cout << "id: " << msg->sock->id << msg->cmd << msg->action << " msg: " << msg->msg << std::endl;
 }
 
 uv_buf_t alloc_buf(uv_handle_t* handle, size_t suggested_size)
@@ -41,13 +43,19 @@ void read_data(uv_stream_t* handle, ssize_t nread, uv_buf_t buf)
 
 	uv_rwlock_rdlock(&id_client_map_rwlock);
 	sock = client_map[tcp];
+	if(!sock)
+	{
+		sock = server_map[tcp];
+	}
 	uv_rwlock_rdunlock(&id_client_map_rwlock);
+	
 	
 	if(sock == 0)
 	{
 		free(buf.base);
 		return;
 	}
+	
 
 	if (nread < 0)
 	{

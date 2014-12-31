@@ -95,5 +95,6 @@ public:
 	unsigned char action;
 };
 
+extern Sock *gLogSock;
 
 #endif // _COMMEN_H_

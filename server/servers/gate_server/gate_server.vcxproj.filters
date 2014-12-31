@@ -31,7 +31,7 @@
     <Filter Include="src\handler">
       <UniqueIdentifier>{549e1360-35f3-4c1d-a619-21c68ba6c7df}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\handler\Register">
+    <Filter Include="src\handler\Regist">
       <UniqueIdentifier>{22013314-380f-4b26-b032-ca0a0ae63253}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -55,7 +55,7 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="src\handler\Regist\Regist.h">
-      <Filter>src\handler\Register</Filter>
+      <Filter>src\handler\Regist</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -72,7 +72,10 @@
       <Filter>src\handler</Filter>
     </ClCompile>
     <ClCompile Include="src\handler\Regist\Regist.cpp">
-      <Filter>src\handler\Register</Filter>
+      <Filter>src\handler\Regist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log\log.cpp">
+      <Filter>src\log</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

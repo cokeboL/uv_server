@@ -13,6 +13,7 @@ uv_rwlock_t id_client_map_rwlock;
 //map
 std::unordered_map<unsigned int, Sock*> id_map;
 std::unordered_map<uv_tcp_t*, Sock*> client_map;
+std::unordered_map<uv_tcp_t*, Sock*> server_map;
 
 static int get_sock_id()
 {
@@ -62,6 +63,18 @@ void on_connect_other_server(uv_connect_t* req, int status)
 	
 	if(status == 0)
 	{
+		//server_map[(uv_tcp_t*)req->handle] = new Sock(get_sock_id(), (uv_tcp_t*)req->handle);
+		//server_map[(uv_tcp_t*)req->handle].servertype = SOCKTYPE_GATESERVER;
+		
+		uv_tcp_t *client = (uv_tcp_t*)req->handle;
+		Sock* sock = new Sock(get_sock_id(), client);
+		sock->socktype = SOCKTYPE_GATESERVER;
+		uv_rwlock_wrlock(&id_client_map_rwlock);
+		id_map[sock->id] = sock;
+		client_map[client] = sock;
+		server_map[client] = sock;
+		uv_rwlock_wrunlock(&id_client_map_rwlock);
+
 		uv_read_start((uv_stream_t*)req->handle, alloc_buf, read_data);
 	
 		int packLen = 8;

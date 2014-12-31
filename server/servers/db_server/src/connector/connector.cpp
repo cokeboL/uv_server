@@ -15,6 +15,7 @@ uv_rwlock_t id_client_map_rwlock;
 //map
 std::unordered_map<unsigned int, Sock*> id_map;
 std::unordered_map<uv_tcp_t*, Sock*> client_map;
+std::unordered_map<uv_tcp_t*, Sock*> server_map;
 
 static int get_sock_id()
 {
@@ -78,8 +79,16 @@ void on_connect_other_server(uv_connect_t* req, int status)
 		uv_write_t* write_req = (uv_write_t*) malloc(sizeof(uv_write_t));
 		write_req->data = send_buf;
 
+		uv_tcp_t *client = (uv_tcp_t*)req->handle;
+		Sock* sock = new Sock(get_sock_id(), client);
+		uv_rwlock_wrlock(&id_client_map_rwlock);
+		id_map[sock->id] = sock;
+		client_map[client] = sock;
+		server_map[client] = sock;
+		uv_rwlock_wrunlock(&id_client_map_rwlock);
 		if((void*)&connector_gate_connect == (void*)req->handle)
 		{
+			sock->socktype = SOCKTYPE_GATESERVER;
 			if(uv_write(write_req, (uv_stream_t*)&connector_gate_connect, &uv_buf, 1, send_handler))
 			{
 				free(send_buf);
@@ -88,6 +97,7 @@ void on_connect_other_server(uv_connect_t* req, int status)
 		}
 		else if((void*)&connector_dispatch_log_connect == (void*)req->handle)
 		{
+			sock->socktype = SOCKTYPE_DISPATCHLOGSERVER;
 			if(uv_write(write_req, (uv_stream_t*)&connector_dispatch_log_connect, &uv_buf, 1, send_handler))
 			{
 				free(send_buf);

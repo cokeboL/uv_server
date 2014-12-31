@@ -1,4 +1,5 @@
 #include "Regist.h"
+#include "connector/connector.h"
 
 /*
 static Regist _instance;
@@ -12,5 +13,8 @@ Regist *Regist::getInstance()
 void Regist::handle_msg(SOCKMSG* msg)
 {
 	msg->sock->socktype = *(SOCKTYPE*)msg->msg;
-	std::cout << "sock type: " << msg->sock->socktype << std::endl;
+
+	server_map[(uv_tcp_t*)msg->sock->handler] = msg->sock;
+
+	std::cout << "server type: " << msg->sock->socktype << std::endl;
 }

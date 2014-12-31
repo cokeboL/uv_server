@@ -12,7 +12,10 @@
       <Filter>src\connector</Filter>
     </ClCompile>
     <ClCompile Include="src\handler\Regist\Regist.cpp">
-      <Filter>src\handler\Register</Filter>
+      <Filter>src\handler\Regist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handler\Logger\Logger.cpp">
+      <Filter>src\handler\Logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -35,7 +38,10 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="src\handler\Regist\Regist.h">
-      <Filter>src\handler\Register</Filter>
+      <Filter>src\handler\Regist</Filter>
+    </ClInclude>
+    <ClInclude Include="src\handler\Logger\Logger.h">
+      <Filter>src\handler\Logger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -57,7 +63,10 @@
     <Filter Include="src\rpc">
       <UniqueIdentifier>{18c7012c-1652-49eb-bc14-b3812711e148}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\handler\Register">
+    <Filter Include="src\handler\Logger">
+      <UniqueIdentifier>{20d8c4a7-111f-4754-bbd8-1f75b792180e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\handler\Regist">
       <UniqueIdentifier>{d6fc9504-6134-46ad-96c4-0a9d9ce71175}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
