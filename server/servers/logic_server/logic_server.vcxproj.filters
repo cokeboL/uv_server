@@ -62,5 +62,8 @@
     <ClInclude Include="src\handler\handler.h">
       <Filter>src\handler</Filter>
     </ClInclude>
+    <ClInclude Include="include\message.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

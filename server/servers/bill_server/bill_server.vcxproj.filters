@@ -31,6 +31,9 @@
     <Filter Include="src\handler">
       <UniqueIdentifier>{3dd41a4c-6dd8-4f4b-b31e-38c3db464513}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\handler\Register">
+      <UniqueIdentifier>{8dda42c2-9e9c-4bc7-b2a0-b3a705ef7961}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\commen.h">
@@ -51,6 +54,9 @@
     <ClInclude Include="include\message.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="src\handler\Regist\Regist.h">
+      <Filter>src\handler\Register</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -64,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="src\handler\handler.cpp">
       <Filter>src\handler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handler\Regist\Regist.cpp">
+      <Filter>src\handler\Register</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

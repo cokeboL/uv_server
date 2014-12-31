@@ -55,7 +55,7 @@ void on_new_connection(uv_stream_t *server, int status)
 	
 }
 
-void on_connect_gate(uv_connect_t* req, int status)
+void on_connect_other_server(uv_connect_t* req, int status)
 {
 	printf("-- client on_connect status: %d!\n", status);
 	
@@ -69,7 +69,7 @@ void on_connect_gate(uv_connect_t* req, int status)
 		*(short*)send_buf = packLen;
 		*(char*)(send_buf+2) = (char)CMD_REGIST;
 		*(char*)(send_buf+3) = 0;
-		*(int*)(send_buf+4) = (int)SOCKTYPE_LOGSERVER;
+		*(int*)(send_buf+4) = (int)SOCKTYPE_DISPATCHLOGSERVER;
 
 		uv_buf_t uv_buf;
 		uv_buf.base = send_buf;
@@ -88,19 +88,19 @@ void on_connect_gate(uv_connect_t* req, int status)
 	
 }
 
-void start_listene(int port)
-{
-	uv_tcp_init(uv_default_loop(), &connector_server);
-	uv_tcp_bind(&connector_server, uv_ip4_addr("127.0.0.1", PORTTYPE_LOGSERVER));
-	uv_listen((uv_stream_t*)&connector_server, 12, on_new_connection);
-
-}
-
-void regist_to_gate()
+void regist_to_other_server(int port)
 {
 	static uv_connect_t conn_gate_req;
 	uv_tcp_init(uv_default_loop(), &connector_connect);
-	uv_tcp_connect(&conn_gate_req, (uv_tcp_t*)&connector_connect, uv_ip4_addr("127.0.0.1", PORTTYPE_GATESERVER), on_connect_gate);
+	uv_tcp_connect(&conn_gate_req, (uv_tcp_t*)&connector_connect, uv_ip4_addr("127.0.0.1", port), on_connect_other_server);
+}
+
+void start_listene(int port)
+{
+	uv_tcp_init(uv_default_loop(), &connector_server);
+	uv_tcp_bind(&connector_server, uv_ip4_addr("127.0.0.1", PORTTYPE_DISPATCHLOGSERVER));
+	uv_listen((uv_stream_t*)&connector_server, 12, on_new_connection);
+
 }
 
 void start_connector(int port)
@@ -110,7 +110,7 @@ void start_connector(int port)
 
 	start_listene(port);
 
-	regist_to_gate();
+	regist_to_other_server(PORTTYPE_GATESERVER);
 	
 	uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 	

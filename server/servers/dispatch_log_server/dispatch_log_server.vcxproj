@@ -81,6 +81,7 @@
   <ItemGroup>
     <ClCompile Include="src\connector\connector.cpp" />
     <ClCompile Include="src\handler\handler.cpp" />
+    <ClCompile Include="src\handler\Regist\Regist.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\rpc\rpc.cpp" />
   </ItemGroup>
@@ -89,6 +90,7 @@
     <ClInclude Include="include\message.h" />
     <ClInclude Include="src\connector\connector.h" />
     <ClInclude Include="src\handler\handler.h" />
+    <ClInclude Include="src\handler\Regist\Regist.h" />
     <ClInclude Include="src\log\log.h" />
     <ClInclude Include="src\rpc\rpc.h" />
   </ItemGroup>

@@ -10,7 +10,7 @@ void handle_msg(uv_work_t *req, SOCKMSG* msg)
 {
 	switch(msg->cmd){
 	case CMD_REGIST:
-		
+		Regist::handle_msg(msg);
 		break;
 	case CMD_INIT:
 

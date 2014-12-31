@@ -4,7 +4,10 @@
 #include "handler/handler.h"
 
 static uv_tcp_t connector_server;
-static uv_tcp_t connector_connect;
+
+static uv_tcp_t connector_gate_connect;
+static uv_tcp_t connector_dispatch_log_connect;
+static uv_tcp_t connector_db_connect;
 
 //lock
 uv_mutex_t sock_id_mutex;
@@ -24,8 +27,6 @@ static int get_sock_id()
 
 	return sock_id;
 }
-
-
 
 
 void on_new_connection(uv_stream_t *server, int status)
@@ -55,7 +56,7 @@ void on_new_connection(uv_stream_t *server, int status)
 	
 }
 
-void on_connect_gate(uv_connect_t* req, int status)
+void on_connect_other_server(uv_connect_t* req, int status)
 {
 	printf("-- client on_connect status: %d!\n", status);
 	
@@ -78,14 +79,54 @@ void on_connect_gate(uv_connect_t* req, int status)
 		uv_write_t* write_req = (uv_write_t*) malloc(sizeof(uv_write_t));
 		write_req->data = send_buf;
 
-		if(uv_write(write_req, (uv_stream_t*)&connector_connect, &uv_buf, 1, send_handler))
+		if((void*)&connector_gate_connect == (void*)req->handle)
 		{
-			free(send_buf);
-			free(write_req);
+			if(uv_write(write_req, (uv_stream_t*)&connector_gate_connect, &uv_buf, 1, send_handler))
+			{
+				free(send_buf);
+				free(write_req);
+			}
 		}
-		
+		else if((void*)&connector_dispatch_log_connect == (void*)req->handle)
+		{
+			if(uv_write(write_req, (uv_stream_t*)&connector_dispatch_log_connect, &uv_buf, 1, send_handler))
+			{
+				free(send_buf);
+				free(write_req);
+			}
+		}
+		else if((void*)&connector_db_connect == (void*)req->handle)
+		{
+			if(uv_write(write_req, (uv_stream_t*)&connector_db_connect, &uv_buf, 1, send_handler))
+			{
+				free(send_buf);
+				free(write_req);
+			}
+		}
 	}
+	free(req);
+}
+
+void regist_to_other_server(int port)
+{
 	
+	uv_connect_t *conn_gate_req = (uv_connect_t*)malloc(sizeof(uv_connect_t));
+	switch(port){
+	case PORTTYPE_GATESERVER:
+		uv_tcp_init(uv_default_loop(), &connector_gate_connect);
+		uv_tcp_connect(conn_gate_req, (uv_tcp_t*)&connector_gate_connect, uv_ip4_addr("127.0.0.1", port), on_connect_other_server);
+		break;
+	case PORTTYPE_DISPATCHLOGSERVER:	
+		uv_tcp_init(uv_default_loop(), &connector_dispatch_log_connect);
+		uv_tcp_connect(conn_gate_req, (uv_tcp_t*)&connector_dispatch_log_connect, uv_ip4_addr("127.0.0.1", port), on_connect_other_server);
+		break;
+	case PORTTYPE_DATASERVER:	
+		uv_tcp_init(uv_default_loop(), &connector_db_connect);
+		uv_tcp_connect(conn_gate_req, (uv_tcp_t*)&connector_db_connect, uv_ip4_addr("127.0.0.1", port), on_connect_other_server);
+		break;
+	default:
+		break;
+	}
 }
 
 void start_listene(int port)
@@ -96,12 +137,6 @@ void start_listene(int port)
 
 }
 
-void regist_to_gate()
-{
-	static uv_connect_t conn_gate_req;
-	uv_tcp_init(uv_default_loop(), &connector_connect);
-	uv_tcp_connect(&conn_gate_req, (uv_tcp_t*)&connector_connect, uv_ip4_addr("127.0.0.1", PORTTYPE_GATESERVER), on_connect_gate);
-}
 
 void start_connector(int port)
 {
@@ -110,8 +145,10 @@ void start_connector(int port)
 
 	start_listene(port);
 
-	regist_to_gate();
-	
+	regist_to_other_server(PORTTYPE_GATESERVER);
+	regist_to_other_server(PORTTYPE_DISPATCHLOGSERVER);
+	regist_to_other_server(PORTTYPE_DATASERVER);
+
 	uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 	
 	return;
@@ -126,5 +163,7 @@ void close_connector()
 	client_map.clear();
 
 	uv_close((uv_handle_t*)&connector_server, 0);
-	uv_close((uv_handle_t*)&connector_connect, 0);
+	uv_close((uv_handle_t*)&connector_gate_connect, 0);
+	uv_close((uv_handle_t*)&connector_dispatch_log_connect, 0);
+	uv_close((uv_handle_t*)&connector_db_connect, 0);
 }

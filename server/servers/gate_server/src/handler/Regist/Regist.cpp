@@ -10,5 +10,5 @@ Regist *Regist::getInstance()
 void Regist::handle_msg(SOCKMSG* msg)
 {
 	msg->sock->socktype = *(SOCKTYPE*)msg->msg;
-	std::cout << "sock type: " << msg->sock->socktype << std::endl;
+	std::cout << "server type: " << msg->sock->socktype << std::endl;
 }
