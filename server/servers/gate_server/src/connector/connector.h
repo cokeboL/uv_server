@@ -24,6 +24,6 @@ void start_connector(int port);
 
 void close_connector();
 
-
+//void regist_to_other_server(int port);
 
 #endif // _CONNECTOR_H_

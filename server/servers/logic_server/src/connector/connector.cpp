@@ -125,6 +125,26 @@ void on_connect_other_server(uv_connect_t* req, int status)
 			}
 		}
 	}
+	else
+	{
+		uv_sleep(1000);
+		if((void*)&connector_gate_connect == (void*)req->handle)
+		{
+			regist_to_other_server(PORTTYPE_GATESERVER);
+		}
+		else if((void*)&connector_dispatch_log_connect == (void*)req->handle)
+		{
+			regist_to_other_server(PORTTYPE_DISPATCHLOGSERVER);
+		}
+		else if((void*)&connector_db_connect == (void*)req->handle)
+		{
+			regist_to_other_server(PORTTYPE_DATASERVER);
+		}
+		else if((void*)&connector_bill_connect == (void*)req->handle)
+		{
+			regist_to_other_server(PORTTYPE_BILLSERVER);
+		}
+	}
 	free(req);
 }
 

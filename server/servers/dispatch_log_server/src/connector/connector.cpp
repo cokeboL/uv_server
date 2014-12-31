@@ -98,6 +98,11 @@ void on_connect_other_server(uv_connect_t* req, int status)
 		}
 		
 	}
+	else
+	{
+		uv_sleep(1000);
+		regist_to_other_server(PORTTYPE_GATESERVER);
+	}
 	
 }
 
