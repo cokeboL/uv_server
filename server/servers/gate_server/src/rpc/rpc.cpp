@@ -46,7 +46,7 @@ static void rpc_recv_loop(uv_work_t *req)
 		delete msg;
 	}
 }
-
+/*
 static void send_handler(uv_write_t* req, int status)
 {
 	if (status == 0 && req)
@@ -55,7 +55,7 @@ static void send_handler(uv_write_t* req, int status)
 		free(req);
 	}
 }
-
+*/
 void rpc_send_loop(uv_async_t *handle, int status )
 {
 	while(1)
@@ -120,4 +120,12 @@ void start_rpc()
 
 	start_rpc_recv();
 	start_rpc_send();
+}
+
+void close_rpc()
+{
+	uv_sem_destroy(&rpc_recv_queue_sem);
+
+	uv_mutex_destroy(&rpc_recv_queue_mutex);
+	uv_mutex_destroy(&rpc_send_queue_mutex);
 }

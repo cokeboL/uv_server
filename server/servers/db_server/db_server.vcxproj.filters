@@ -28,6 +28,9 @@
     <Filter Include="src\connector">
       <UniqueIdentifier>{55133299-2ce0-49b4-891c-46e9034ad21e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\handler">
+      <UniqueIdentifier>{9450466c-0014-47d5-8779-797ab1c7c4e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -38,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="src\rpc\rpc.cpp">
       <Filter>src\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handler\handler.cpp">
+      <Filter>src\handler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="include\commen.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\handler\handler.h">
+      <Filter>src\handler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

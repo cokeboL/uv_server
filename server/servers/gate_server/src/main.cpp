@@ -70,13 +70,13 @@ void tickHandler2(uv_timer_t *req, int status)
 }
 
 int main()
-{
+{	
+
 	start_rpc();
-
-	start_listen(7000);
-
-	close_listener();
+	start_connector(7001);
+	
+	close_rpc();
+	close_connector();
 
     return 0;
-
 }

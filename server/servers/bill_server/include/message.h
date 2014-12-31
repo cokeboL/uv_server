@@ -7,8 +7,6 @@ typedef enum{
 	CMD_REGIST,
 	CMD_INIT,
 	
-	CMD_NOEN_ACTION,
-
 	CMD_MAX,
 }CMD;
 

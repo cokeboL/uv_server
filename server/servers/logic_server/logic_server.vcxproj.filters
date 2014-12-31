@@ -28,6 +28,9 @@
     <Filter Include="src\log">
       <UniqueIdentifier>{a29425ab-2983-44f4-aef3-1638fb64e11f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\handler">
+      <UniqueIdentifier>{99e4a476-6699-4b4c-bd99-87252a094d46}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -38,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="src\rpc\rpc.cpp">
       <Filter>src\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handler\handler.cpp">
+      <Filter>src\handler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="include\commen.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\handler\handler.h">
+      <Filter>src\handler</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,7 +3,8 @@
 #include "rpc/rpc.h"
 #include "handler/handler.h"
 
-static uv_tcp_t* tcp_server;
+static uv_tcp_t connector_server;
+static uv_tcp_t connector_connect;
 
 //lock
 uv_mutex_t sock_id_mutex;
@@ -27,13 +28,14 @@ static int get_sock_id()
 
 
 
-void new_connection(uv_stream_t *server, int status) {
+void on_new_connection(uv_stream_t *server, int status)
+{
     if (status == -1) {
         // error!
         return;
     }
 
-    uv_tcp_t *client = (uv_tcp_t*) malloc(sizeof(uv_tcp_t));
+	uv_tcp_t *client = (uv_tcp_t*) malloc(sizeof(uv_tcp_t));
     uv_tcp_init(uv_default_loop(), client);
 
     if (uv_accept(server, (uv_stream_t*) client) == 0) {
@@ -51,24 +53,69 @@ void new_connection(uv_stream_t *server, int status) {
     }
 }
 
-void start_listen(int port)
+void on_connect_gate(uv_connect_t* req, int status)
+{
+	printf("-- client on_connect status: %d!\n", status);
+	
+	
+	if(status == 0)
+	{
+		uv_read_start((uv_stream_t*)req->handle, alloc_buf, read_data);
+	
+		int packLen = 8;
+		char *send_buf = (char*)malloc(packLen);
+		*(short*)send_buf = packLen;
+		*(char*)(send_buf+2) = (char)CMD_REGIST;
+		*(char*)(send_buf+3) = 0;
+		*(int*)(send_buf+4) = (int)SOCKTYPE_LOGICSERVER;
+
+		uv_buf_t uv_buf;
+		uv_buf.base = send_buf;
+		uv_buf.len = packLen;
+
+		uv_write_t* write_req = (uv_write_t*) malloc(sizeof(uv_write_t));
+		write_req->data = send_buf;
+
+		if(uv_write(write_req, (uv_stream_t*)&connector_connect, &uv_buf, 1, send_handler))
+		{
+			free(send_buf);
+			free(write_req);
+		}
+		
+	}
+	
+}
+
+void start_listene(int port)
+{
+	uv_tcp_init(uv_default_loop(), &connector_server);
+	uv_tcp_bind(&connector_server, uv_ip4_addr("127.0.0.1", PORTTYPE_GATESERVER));
+	uv_listen((uv_stream_t*)&connector_server, 12, on_new_connection);
+
+}
+
+void regist_to_gate()
+{
+	uv_connect_t conn_gate_req;
+	uv_tcp_init(uv_default_loop(), &connector_connect);
+	uv_tcp_connect(&conn_gate_req, (uv_tcp_t*)&connector_connect, uv_ip4_addr("127.0.0.1", PORTTYPE_GATESERVER), on_connect_gate);
+}
+
+void start_connector(int port)
 {
 	uv_mutex_init(&sock_id_mutex);
 	uv_rwlock_init(&id_client_map_rwlock);
 
-	uv_tcp_t tcp_server;
+	start_listene(port);
 
-	uv_loop_t loop;
-	uv_tcp_init(&loop, &tcp_server);
-	uv_tcp_bind(&tcp_server, uv_ip4_addr("127.0.0.1", port));
-	uv_listen((uv_stream_t*) &tcp_server, 128, new_connection);
-
-	uv_run(&loop, UV_RUN_DEFAULT);
-
+	//regist_to_gate();
+	
+	uv_run(uv_default_loop(), UV_RUN_DEFAULT);
+	
 	return;
 }
 
-void close_listener()
+void close_connector()
 {
 	uv_mutex_destroy(&sock_id_mutex);
 	uv_rwlock_destroy(&id_client_map_rwlock);
@@ -76,6 +123,6 @@ void close_listener()
 	id_map.clear();
 	client_map.clear();
 
-	uv_close((uv_handle_t*)tcp_server, 0);
-	free(tcp_server);
+	uv_close((uv_handle_t*)&connector_server, 0);
+	uv_close((uv_handle_t*)&connector_connect, 0);
 }
