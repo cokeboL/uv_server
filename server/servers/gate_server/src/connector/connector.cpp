@@ -3,6 +3,18 @@
 #include "rpc/rpc.h"
 #include "handler/handler.h"
 
+int PORT_BILLSERVER=0;
+int	PORT_DATASERVER=0;
+int PORT_GATESERVER=0;
+int PORT_DISPATCHLOGSERVER=0;
+int PORT_LOGICSERVER=0;
+
+std::string IP_GATESERVER;
+std::string IP_DISPATCHLOGSERVER;
+std::string IP_DATASERVER;
+std::string IP_BILLSERVER;
+std::string IP_LOGICSERVER;
+
 static uv_tcp_t connector_server;
 static uv_tcp_t connector_connect;
 
@@ -58,7 +70,8 @@ void on_new_connection(uv_stream_t *server, int status)
 void start_listene(int port)
 {
 	uv_tcp_init(uv_default_loop(), &connector_server);
-	uv_tcp_bind(&connector_server, uv_ip4_addr("127.0.0.1", PORTTYPE_GATESERVER));
+	uv_tcp_bind(&connector_server, uv_ip4_addr(IP_GATESERVER.c_str(), PORT_GATESERVER));
+	std::cout << "listene: " << IP_GATESERVER.c_str() << ":" << PORT_GATESERVER << std::endl;
 	uv_listen((uv_stream_t*)&connector_server, 12, on_new_connection);
 
 }

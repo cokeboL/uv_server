@@ -48,8 +48,54 @@ void tickHandler2(uv_timer_t *req, int status)
 
 
 
+void getServersInfo()
+{
+	FILE *fp = fopen("./config", "r");
+	if(!fp)
+	{
+		return;
+	}
+
+	char buf[512];
+
+	while(fgets(buf, sizeof(buf), fp))
+	{
+		if(strncmp(buf, "gate", strlen("gate")) == 0)
+		{
+			std::string s = std::string(buf);
+			IP_GATESERVER = s.substr(s.find_first_of("\"")+1,s.find_last_of("\"")-s.find_first_of("\"")-1);
+			s = s.substr(s.find_last_of(" ")+1);
+			PORT_GATESERVER = atoi(s.c_str());
+												
+		}
+		else if(strncmp(buf, "dispatch_log", strlen("dispatch_log")) == 0)
+		{
+			std::string s = std::string(buf);
+			IP_DISPATCHLOGSERVER = s.substr(s.find_first_of("\"")+1,s.find_last_of("\"")-s.find_first_of("\"")-1);
+			s = s.substr(s.find_last_of(" ")+1);
+			PORT_DISPATCHLOGSERVER = atoi(s.c_str());
+		}
+		else if(strncmp(buf, "data", strlen("data")) == 0)
+		{
+			std::string s = std::string(buf);
+			IP_DATASERVER = s.substr(s.find_first_of("\"")+1,s.find_last_of("\"")-s.find_first_of("\"")-1);
+			s = s.substr(s.find_last_of(" ")+1);
+			PORT_DATASERVER = atoi(s.c_str());
+		}
+		else if(strncmp(buf, "bill", strlen("bill")) == 0)
+		{
+			std::string s = std::string(buf);
+			IP_BILLSERVER = s.substr(s.find_first_of("\"")+1,s.find_last_of("\"")-s.find_first_of("\"")-1);
+			s = s.substr(s.find_last_of(" ")+1);
+			PORT_BILLSERVER = atoi(s.c_str());
+		}
+	}
+}
+
 int main()
 {	
+	getServersInfo();
+
 	start_rpc();
 	start_connector(7001);
 	
@@ -59,37 +105,3 @@ int main()
     return 0;
 }
 
-
-
-
-#if 0
-int main()
-{
-	uv_tcp_t tcp_server;
-
-
-	uv_tcp_init(uv_default_loop(), &tcp_server);
-
-	uv_tcp_bind(&tcp_server, uv_ip4_addr("127.0.0.1", 7001));
-
-	uv_listen((uv_stream_t*)&tcp_server, 12, ipc_on_connection_tcp_conn);
-
-
-	
-
-	uv_connect_t connreq;
-	uv_tcp_t conn;
-	struct sockaddr_in addr;
-	uv_tcp_init(uv_default_loop(), &conn);
-	addr = uv_ip4_addr("127.0.0.1", 7000);
-	uv_tcp_connect(&connreq, (uv_tcp_t*)&conn, addr, connect_child_process_cb);
-
-
-	uv_run(uv_default_loop(), UV_RUN_DEFAULT);
-
-
-	//MAKE_VALGRIND_HAPPY();
-
-    return 0;
-}
-#endif

@@ -3,6 +3,18 @@
 #include "rpc/rpc.h"
 #include "handler/handler.h"
 
+int PORT_BILLSERVER=0;
+int	PORT_DATASERVER=0;
+int PORT_GATESERVER=0;
+int PORT_DISPATCHLOGSERVER=0;
+int PORT_LOGICSERVER=0;
+
+std::string IP_GATESERVER;
+std::string IP_DISPATCHLOGSERVER;
+std::string IP_DATASERVER;
+std::string IP_BILLSERVER;
+std::string IP_LOGICSERVER;
+
 static uv_tcp_t connector_server;
 
 static uv_tcp_t connector_gate_connect;
@@ -120,47 +132,49 @@ void on_connect_other_server(uv_connect_t* req, int status)
 		uv_sleep(100);
 		if((void*)&connector_gate_connect == (void*)req->handle)
 		{
-			regist_to_other_server(PORTTYPE_GATESERVER);
+			uv_close((uv_handle_t*)&connector_gate_connect, 0);
+			regist_to_other_server(IP_GATESERVER.c_str(), PORT_GATESERVER);
 		}
 		else if((void*)&connector_dispatch_log_connect == (void*)req->handle)
 		{
-			regist_to_other_server(PORTTYPE_DISPATCHLOGSERVER);
+			uv_close((uv_handle_t*)&connector_dispatch_log_connect, 0);
+			regist_to_other_server(IP_DISPATCHLOGSERVER.c_str(), PORT_DISPATCHLOGSERVER);
 		}
 		else if((void*)&connector_db_connect == (void*)req->handle)
 		{
-			regist_to_other_server(PORTTYPE_DATASERVER);
+			uv_close((uv_handle_t*)&connector_db_connect, 0);
+			regist_to_other_server(IP_DATASERVER.c_str(), PORT_DATASERVER);
 		}
 	}
 
 	free(req);
 }
 
-void regist_to_other_server(int port)
+void regist_to_other_server(const char *ip, const int port)
 {
-	
 	uv_connect_t *conn_gate_req = (uv_connect_t*)malloc(sizeof(uv_connect_t));
-	switch(port){
-	case PORTTYPE_GATESERVER:
+
+	if(port == PORT_GATESERVER)
+	{
 		uv_tcp_init(uv_default_loop(), &connector_gate_connect);
-		uv_tcp_connect(conn_gate_req, (uv_tcp_t*)&connector_gate_connect, uv_ip4_addr("127.0.0.1", port), on_connect_other_server);
-		break;
-	case PORTTYPE_DISPATCHLOGSERVER:	
+		uv_tcp_connect(conn_gate_req, (uv_tcp_t*)&connector_gate_connect, uv_ip4_addr(IP_GATESERVER.c_str(), port), on_connect_other_server);
+	}
+	else if(port == PORT_DISPATCHLOGSERVER)
+	{
 		uv_tcp_init(uv_default_loop(), &connector_dispatch_log_connect);
-		uv_tcp_connect(conn_gate_req, (uv_tcp_t*)&connector_dispatch_log_connect, uv_ip4_addr("127.0.0.1", port), on_connect_other_server);
-		break;
-	case PORTTYPE_DATASERVER:	
+		uv_tcp_connect(conn_gate_req, (uv_tcp_t*)&connector_dispatch_log_connect, uv_ip4_addr(IP_DISPATCHLOGSERVER.c_str(), port), on_connect_other_server);
+	}
+	else if(port == PORT_DATASERVER)
+	{
 		uv_tcp_init(uv_default_loop(), &connector_db_connect);
-		uv_tcp_connect(conn_gate_req, (uv_tcp_t*)&connector_db_connect, uv_ip4_addr("127.0.0.1", port), on_connect_other_server);
-		break;
-	default:
-		break;
+		uv_tcp_connect(conn_gate_req, (uv_tcp_t*)&connector_db_connect, uv_ip4_addr(IP_DATASERVER.c_str(), port), on_connect_other_server);
 	}
 }
 
 void start_listene(int port)
 {
 	uv_tcp_init(uv_default_loop(), &connector_server);
-	uv_tcp_bind(&connector_server, uv_ip4_addr("127.0.0.1", PORTTYPE_BILLSERVER));
+	uv_tcp_bind(&connector_server, uv_ip4_addr(IP_BILLSERVER.c_str(), PORT_BILLSERVER));
 	uv_listen((uv_stream_t*)&connector_server, 12, on_new_connection);
 
 }
@@ -172,10 +186,9 @@ void start_connector(int port)
 	uv_rwlock_init(&id_client_map_rwlock);
 
 	start_listene(port);
-
-	regist_to_other_server(PORTTYPE_GATESERVER);
-	regist_to_other_server(PORTTYPE_DISPATCHLOGSERVER);
-	regist_to_other_server(PORTTYPE_DATASERVER);
+	regist_to_other_server(IP_GATESERVER.c_str(), PORT_GATESERVER);
+	regist_to_other_server(IP_DISPATCHLOGSERVER.c_str(), PORT_DISPATCHLOGSERVER);
+	regist_to_other_server(IP_DATASERVER.c_str(), PORT_DATASERVER);
 
 	uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 	

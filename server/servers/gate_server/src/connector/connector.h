@@ -4,6 +4,17 @@
 #include "commen.h"
 #include <unordered_map>
 
+extern int PORT_BILLSERVER;
+extern int PORT_DATASERVER;
+extern int PORT_GATESERVER;
+extern int PORT_DISPATCHLOGSERVER;
+extern int PORT_LOGICSERVER;
+
+extern std::string IP_GATESERVER;
+extern std::string IP_DISPATCHLOGSERVER;
+extern std::string IP_DATASERVER;
+extern std::string IP_BILLSERVER;
+extern std::string IP_LOGICSERVER;
 
 extern uv_mutex_t sock_id_mutex;
 extern uv_rwlock_t id_client_map_rwlock;
