@@ -3,7 +3,6 @@
 #include "commen.h"
 #include "connector/connector.h"
 #include "rpc/rpc.h"
-#include "regist/regist.h"
 #include <stdlib.h>
 
 

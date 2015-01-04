@@ -1,8 +1,7 @@
 #ifndef _HANDLER_H_
 #define _HANDLER_H_
 
-#include "handler/Regist/Regist.h"
-#include "handler/Logger/Logger.h"
+#include "commen.h"
 
 void handle_msg(uv_work_t *req, SOCKMSG* msg);
 

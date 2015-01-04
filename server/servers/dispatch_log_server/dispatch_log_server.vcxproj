@@ -84,6 +84,7 @@
     <ClCompile Include="src\handler\handler.cpp" />
     <ClCompile Include="src\handler\Logger\Logger.cpp" />
     <ClCompile Include="src\handler\Regist\Regist.cpp" />
+    <ClCompile Include="src\log\log.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\rpc\rpc.cpp" />
   </ItemGroup>

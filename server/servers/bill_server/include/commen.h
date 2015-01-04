@@ -42,17 +42,9 @@ public:
 		len_total(0), 
 		len_readed(0), 
 		buf(0), 
-		handler(client),
-		socktype(SOCKTYPE_CLIENT)
+		handler(client)
 	{
 	}
-	
-	/*
-	inline void setType(SOCKTYPE t)
-	{
-		socktype = t;
-	}
-	*/
 
 	int id;
 	int status;
@@ -60,7 +52,41 @@ public:
 	int len_readed;
 	char* buf;
 	uv_tcp_t* handler;
+};
+
+class ServerSock: public Sock
+{
+public:
+	ServerSock(int _id, uv_tcp_t* client, SOCKTYPE sock_type, const char *ip_, const int port_): 
+		Sock(_id, client),
+		ip(0),
+		port(port_),
+		socktype(sock_type)
+	{
+	}
+	ServerSock(Sock &sock, SOCKTYPE sock_type, const char *ip_, const int port_): 
+		Sock(sock),
+		ip(0),
+		port(port_),
+		socktype(sock_type)
+	{
+		if(ip_)
+		{
+			ip = new char[strlen(ip_)+1];
+			strcpy(ip, ip_);
+		}
+	}
+
+	~ServerSock()
+	{
+		if(ip)
+		{
+			delete(ip);
+		}
+	}
 	SOCKTYPE socktype;
+	char *ip;
+	int port;
 };
 
 class SOCKMSG

@@ -1,15 +1,19 @@
 #ifndef _LOG_H_
 #define _LOG_H_
 
+#include <stdio.h>
 #include <string.h>
-#include "commen.h"
-#include "handler/handler.h"
 
+#include "handler/handler.h"
 
 #define MaxLogLength 1024
 extern char log_buf[MaxLogLength];
 
-#define Log(level, msg) \
+//local log
+#define LLog(fmt, ...) printf(fmt, ##__VA_ARGS__)
+
+//global log to log server
+#define GLog(level, msg) \
 	do{ \
 	sprintf(log_buf+4, "[gate server %d] file %s, line %d: %s", level, __FILE__, __LINE__, msg); \
 	int packLen = strlen(log_buf+4)+1+4; \

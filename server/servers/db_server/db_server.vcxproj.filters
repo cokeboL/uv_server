@@ -51,6 +51,9 @@
     <ClCompile Include="src\handler\Regist\Regist.cpp">
       <Filter>src\handler\Regist</Filter>
     </ClCompile>
+    <ClCompile Include="src\log\log.cpp">
+      <Filter>src\log</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\log\log.h">

@@ -82,6 +82,7 @@
   <ItemGroup>
     <ClCompile Include="src\connector\connector.cpp" />
     <ClCompile Include="src\handler\handler.cpp" />
+    <ClCompile Include="src\log\log.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\rpc\rpc.cpp" />
   </ItemGroup>

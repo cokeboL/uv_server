@@ -25,7 +25,7 @@ uv_rwlock_t id_client_map_rwlock;
 //map
 std::unordered_map<unsigned int, Sock*> id_map;
 std::unordered_map<uv_tcp_t*, Sock*> client_map;
-std::unordered_map<uv_tcp_t*, Sock*> server_map;
+std::unordered_map<uv_tcp_t*, ServerSock*> server_map;
 
 static int get_sock_id()
 {

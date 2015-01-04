@@ -45,6 +45,9 @@
     <ClCompile Include="src\handler\handler.cpp">
       <Filter>src\handler</Filter>
     </ClCompile>
+    <ClCompile Include="src\log\log.cpp">
+      <Filter>src\log</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\connector\connector.h">
