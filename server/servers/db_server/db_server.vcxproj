@@ -88,8 +88,8 @@
     <ClCompile Include="src\rpc\rpc.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\commen.h" />
-    <ClInclude Include="include\message.h" />
+    <ClInclude Include="..\include\commen.h" />
+    <ClInclude Include="..\include\message.h" />
     <ClInclude Include="src\connector\connector.h" />
     <ClInclude Include="src\handler\handler.h" />
     <ClInclude Include="src\handler\Regist\Regist.h" />

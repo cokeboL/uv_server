@@ -65,16 +65,16 @@
     <ClInclude Include="src\rpc\rpc.h">
       <Filter>src\rpc</Filter>
     </ClInclude>
-    <ClInclude Include="include\commen.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="src\handler\handler.h">
       <Filter>src\handler</Filter>
     </ClInclude>
     <ClInclude Include="src\handler\Regist\Regist.h">
       <Filter>src\handler\Regist</Filter>
     </ClInclude>
-    <ClInclude Include="include\message.h">
+    <ClInclude Include="..\include\commen.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\message.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
