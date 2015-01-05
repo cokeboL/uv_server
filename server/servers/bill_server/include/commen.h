@@ -103,7 +103,7 @@ public:
 
 	~SOCKMSG()
 	{
-		free(msg);
+		delete(msg);
 	}
 
 	Sock *sock;

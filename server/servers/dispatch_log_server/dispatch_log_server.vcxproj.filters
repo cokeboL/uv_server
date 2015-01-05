@@ -20,6 +20,9 @@
     <ClCompile Include="src\log\log.cpp">
       <Filter>src\log</Filter>
     </ClCompile>
+    <ClCompile Include="src\handler\Notify\Notify.cpp">
+      <Filter>src\handler\Notify</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\rpc\rpc.h">
@@ -39,6 +42,9 @@
     </ClInclude>
     <ClInclude Include="src\handler\Logger\Logger.h">
       <Filter>src\handler\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="src\handler\Notify\Notify.h">
+      <Filter>src\handler\Notify</Filter>
     </ClInclude>
     <ClInclude Include="..\include\commen.h">
       <Filter>include</Filter>
@@ -71,6 +77,9 @@
     </Filter>
     <Filter Include="src\handler\Regist">
       <UniqueIdentifier>{d6fc9504-6134-46ad-96c4-0a9d9ce71175}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\handler\Notify">
+      <UniqueIdentifier>{48dd043f-e9df-44ad-81c9-40094b23b276}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

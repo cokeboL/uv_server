@@ -7,12 +7,14 @@
 #include "handler/handler.h"
 
 #define MaxLogLength 1024
-extern char log_buf[MaxLogLength];
+//extern char log_buf[MaxLogLength];
 
 //local log
 #define LLog(fmt, ...) printf(fmt, ##__VA_ARGS__)
 
 //global log to log server
+#define GLog(level, msg) record_log(level, msg)
+/*
 #define GLog(level, msg) \
 	do{ \
 	sprintf(log_buf+4, "[gate server %d] file %s, line %d: %s", level, __FILE__, __LINE__, msg); \
@@ -30,9 +32,10 @@ extern char log_buf[MaxLogLength];
 		free(write_req);\
 	}\
 	}while(0)
+*/
 
+void record_log(int level, char *msg);
 
-//void Log(int level, char *msg);
-extern void send_log_handler(uv_write_t* req, int status);
+//extern void send_log_handler(uv_write_t* req, int status);
 
 #endif // _LOG_H_

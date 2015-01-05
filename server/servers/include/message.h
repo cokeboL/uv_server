@@ -25,4 +25,15 @@ typedef enum{
 	INIT_MAX,
 }INIT_ACTION;
 
+
+typedef enum{
+	NOTIFY_NONE,
+
+	NOTIFY_CHAT,
+	NOTIFY_MAIL,
+
+	NOTIFY_MAX,
+}NOTIFY_ACTION;
+
+
 #endif // _MESSAGE_H_

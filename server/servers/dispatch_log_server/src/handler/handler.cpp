@@ -18,6 +18,9 @@ void handle_msg(uv_work_t *req, SOCKMSG* msg)
 	case CMD_LOG:
 		Logger::handle_msg(msg);
 		break;
+	case CMD_NOTIFY:
+		Notify::handle_msg(msg);
+		break;
 	default:
 		break;
 	}
@@ -132,9 +135,8 @@ void read_data(uv_stream_t* handle, ssize_t nread, uv_buf_t buf)
 			*/
 		case pack_msg_readed:
 			int len = sock->len_total - pack_head_bytes + 1;
-			char *msg = (char*)malloc(len);
+			char *msg = new char[len];//(char*)malloc(len);
 			memcpy(msg, sock->buf, len-1);
-			msg[len-1] = 0;
 			SOCKMSG *sock_msg = new SOCKMSG(sock, cmd, action, msg, len);
 
 			free(sock->buf);

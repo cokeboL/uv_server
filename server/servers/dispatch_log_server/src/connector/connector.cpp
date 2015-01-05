@@ -2,6 +2,7 @@
 #include "log/log.h"
 #include "rpc/rpc.h"
 #include "handler/handler.h"
+#include <vector>
 
 int PORT_BILLSERVER=0;
 int	PORT_DATASERVER=0;
@@ -14,6 +15,11 @@ std::string IP_DISPATCHLOGSERVER;
 std::string IP_DATASERVER;
 std::string IP_BILLSERVER;
 std::string IP_LOGICSERVER;
+
+ServerSock *gGateSock;
+ServerSock *gDataSock;
+ServerSock *gBillSock;
+std::vector<ServerSock*> gLogicSocks;
 
 static uv_tcp_t connector_server;
 static uv_tcp_t connector_connect;
@@ -83,6 +89,8 @@ void on_connect_other_server(uv_connect_t* req, int status)
 		server_map[client] = sock;
 		uv_rwlock_wrunlock(&id_client_map_rwlock);
 	
+		gGateSock = sock;
+
 		int packLen = 8;
 		char *send_buf = (char*)malloc(packLen);
 		*(short*)send_buf = packLen;

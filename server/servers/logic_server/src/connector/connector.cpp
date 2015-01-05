@@ -15,6 +15,11 @@ std::string IP_DATASERVER;
 std::string IP_BILLSERVER;
 std::string IP_LOGICSERVER;
 
+ServerSock *gGateSock;
+ServerSock *gDispatchLogSock;
+ServerSock *gDataSock;
+ServerSock *gBillSock;
+
 static uv_tcp_t connector_server;
 
 static uv_tcp_t connector_gate_connect;
@@ -101,6 +106,7 @@ void on_connect_other_server(uv_connect_t* req, int status)
 
 		if((void*)&connector_gate_connect == (void*)req->handle)
 		{
+			gGateSock = sock;
 			sock->socktype = SOCKTYPE_GATESERVER;
 			if(uv_write(write_req, (uv_stream_t*)&connector_gate_connect, &uv_buf, 1, send_handler))
 			{
@@ -110,6 +116,7 @@ void on_connect_other_server(uv_connect_t* req, int status)
 		}
 		else if((void*)&connector_dispatch_log_connect == (void*)req->handle)
 		{
+			gDispatchLogSock = sock;
 			sock->socktype = SOCKTYPE_DISPATCHLOGSERVER;
 			if(uv_write(write_req, (uv_stream_t*)&connector_dispatch_log_connect, &uv_buf, 1, send_handler))
 			{
@@ -119,6 +126,7 @@ void on_connect_other_server(uv_connect_t* req, int status)
 		}
 		else if((void*)&connector_db_connect == (void*)req->handle)
 		{
+			gDataSock = sock;
 			sock->socktype = SOCKTYPE_DATASERVER;
 			if(uv_write(write_req, (uv_stream_t*)&connector_db_connect, &uv_buf, 1, send_handler))
 			{
@@ -128,6 +136,7 @@ void on_connect_other_server(uv_connect_t* req, int status)
 		}
 		else if((void*)&connector_bill_connect == (void*)req->handle)
 		{
+			gBillSock = sock;
 			sock->socktype = SOCKTYPE_BILLSERVER;
 			if(uv_write(write_req, (uv_stream_t*)&connector_bill_connect, &uv_buf, 1, send_handler))
 			{

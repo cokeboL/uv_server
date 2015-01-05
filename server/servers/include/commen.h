@@ -96,14 +96,25 @@ public:
 		sock(sock_),
 		cmd(cmd_),
 		action(action_),
-		msg(msg_),
 		len(len_)
 	{
+		msg = new char[len];
+		memcpy(msg, msg_, len_);
+	}
+
+	SOCKMSG(SOCKMSG &sockmsg):
+		sock(sockmsg.sock),
+		cmd(sockmsg.cmd),
+		action(sockmsg.action),
+		len(sockmsg.len)
+	{
+		msg = new char[len];
+		memcpy(msg, sockmsg.msg, len);
 	}
 
 	~SOCKMSG()
 	{
-		free(msg);
+		delete(msg);
 	}
 
 	Sock *sock;

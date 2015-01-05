@@ -3,6 +3,7 @@
 
 #include "handler/Regist/Regist.h"
 #include "handler/Logger/Logger.h"
+#include "handler/Notify/Notify.h"
 
 void handle_msg(uv_work_t *req, SOCKMSG* msg);
 

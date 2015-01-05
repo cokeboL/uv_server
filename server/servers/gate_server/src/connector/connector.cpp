@@ -9,6 +9,10 @@ int PORT_GATESERVER=0;
 int PORT_DISPATCHLOGSERVER=0;
 int PORT_LOGICSERVER=0;
 
+ServerSock *gDispatchLogSock;
+ServerSock *gDataSock;
+ServerSock *gBillSock;
+
 std::string IP_GATESERVER;
 std::string IP_DISPATCHLOGSERVER;
 std::string IP_DATASERVER;
@@ -16,7 +20,6 @@ std::string IP_BILLSERVER;
 std::string IP_LOGICSERVER;
 
 static uv_tcp_t connector_server;
-static uv_tcp_t connector_connect;
 
 //lock
 uv_mutex_t sock_id_mutex;
@@ -99,5 +102,4 @@ void close_connector()
 	client_map.clear();
 
 	uv_close((uv_handle_t*)&connector_server, 0);
-	uv_close((uv_handle_t*)&connector_connect, 0);
 }

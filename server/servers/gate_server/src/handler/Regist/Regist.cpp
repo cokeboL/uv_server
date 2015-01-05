@@ -22,11 +22,26 @@ void Regist::handle_msg(SOCKMSG* msg)
 	SOCKTYPE socktype = *(SOCKTYPE*)msg->msg;
 	switch(socktype)
 	{
+	case SOCKTYPE_DISPATCHLOGSERVER:
+		extern ServerSock *gDispatchLogSock;
+		gDispatchLogSock = new ServerSock(*msg->sock, socktype, 0, 0);
+		server_map[(uv_tcp_t*)msg->sock->handler] = gDispatchLogSock;
+		break;
+	case SOCKTYPE_DATASERVER:
+		extern ServerSock *gDataSock;
+		gDataSock = new ServerSock(*msg->sock, socktype, 0, 0);
+		server_map[(uv_tcp_t*)msg->sock->handler] = gDataSock;
+		break;
+	case SOCKTYPE_BILLSERVER:
+		extern ServerSock *gBillSock;
+		gBillSock = new ServerSock(*msg->sock, socktype, 0, 0);
+		server_map[(uv_tcp_t*)msg->sock->handler] = gBillSock;
+		break;
 	case SOCKTYPE_LOGICSERVER:
 		server_map[(uv_tcp_t*)msg->sock->handler] = new ServerSock(*msg->sock, *(SOCKTYPE*)msg->msg, "hahaha", 100);
 		break;
 	default:
-		server_map[(uv_tcp_t*)msg->sock->handler] = new ServerSock(*msg->sock, socktype, 0, 0);
+		
 		break;
 	}
 	

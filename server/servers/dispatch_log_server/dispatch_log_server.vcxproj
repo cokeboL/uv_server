@@ -83,6 +83,7 @@
     <ClCompile Include="src\connector\connector.cpp" />
     <ClCompile Include="src\handler\handler.cpp" />
     <ClCompile Include="src\handler\Logger\Logger.cpp" />
+    <ClCompile Include="src\handler\Notify\Notify.cpp" />
     <ClCompile Include="src\handler\Regist\Regist.cpp" />
     <ClCompile Include="src\log\log.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="src\connector\connector.h" />
     <ClInclude Include="src\handler\handler.h" />
     <ClInclude Include="src\handler\Logger\Logger.h" />
+    <ClInclude Include="src\handler\Notify\Notify.h" />
     <ClInclude Include="src\handler\Regist\Regist.h" />
     <ClInclude Include="src\log\log.h" />
     <ClInclude Include="src\rpc\rpc.h" />
