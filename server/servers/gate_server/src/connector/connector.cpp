@@ -45,7 +45,7 @@ static int get_sock_id()
 
 
 
-void on_new_connection(uv_stream_t *server, int status)
+static void on_new_connection(uv_stream_t *server, int status)
 {
     if (status == -1) {
         // error!
@@ -71,23 +71,21 @@ void on_new_connection(uv_stream_t *server, int status)
 }
 
 
-void start_listene(int port)
+static void start_listene()
 {
 	uv_tcp_init(uv_default_loop(), &connector_server);
 	uv_tcp_bind(&connector_server, uv_ip4_addr(IP_GATESERVER.c_str(), PORT_GATESERVER));
-	std::cout << "listene: " << IP_GATESERVER.c_str() << ":" << PORT_GATESERVER << std::endl;
 	uv_listen((uv_stream_t*)&connector_server, 12, on_new_connection);
 
+	LLog("gate_server start at: %s %d\n", IP_GATESERVER.c_str(), PORT_GATESERVER);
 }
 
-void start_connector(int port)
+void start_connector()
 {
 	uv_mutex_init(&sock_id_mutex);
 	uv_rwlock_init(&id_client_map_rwlock);
 
-	start_listene(port);
-
-	//regist_to_gate();
+	start_listene();
 	
 	uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 	

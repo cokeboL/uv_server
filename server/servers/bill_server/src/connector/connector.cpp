@@ -35,6 +35,8 @@ std::unordered_map<unsigned int, Sock*> id_map;
 std::unordered_map<uv_tcp_t*, Sock*> client_map;
 std::unordered_map<uv_tcp_t*, ServerSock*> server_map;
 
+static void regist_to_other_server(const char *ip, const int port);
+
 static int get_sock_id()
 {
 	static unsigned int sock_id = 0;
@@ -47,7 +49,7 @@ static int get_sock_id()
 }
 
 
-void on_new_connection(uv_stream_t *server, int status)
+static void on_new_connection(uv_stream_t *server, int status)
 {
     if (status == -1) {
         return;
@@ -72,7 +74,7 @@ void on_new_connection(uv_stream_t *server, int status)
 	
 }
 
-void on_connect_other_server(uv_connect_t* req, int status)
+static void on_connect_other_server(uv_connect_t* req, int status)
 {
 	if(status == 0)
 	{
@@ -88,16 +90,19 @@ void on_connect_other_server(uv_connect_t* req, int status)
 		{
 			gGateSock = sock;
 			sock->socktype = SOCKTYPE_GATESERVER;
+			LLog("regist to gate_server OK!\n");
 		}
 		else if((void*)&connector_dispatch_log_connect == (void*)req->handle)
 		{
 			gDispatchLogSock = sock;
 			sock->socktype = SOCKTYPE_DISPATCHLOGSERVER;
+			LLog("regist to dispatch_log_server OK!\n");
 		}
 		else if((void*)&connector_db_connect == (void*)req->handle)
 		{
 			gDataSock = sock;
 			sock->socktype = SOCKTYPE_DATASERVER;
+			LLog("regist to data_server OK!\n");
 		}
 		int packLen = 4;
 		int msg = SOCKTYPE_BILLSERVER;
@@ -127,7 +132,7 @@ void on_connect_other_server(uv_connect_t* req, int status)
 	free(req);
 }
 
-void regist_to_other_server(const char *ip, const int port)
+static void regist_to_other_server(const char *ip, const int port)
 {
 	uv_connect_t *conn_gate_req = (uv_connect_t*)malloc(sizeof(uv_connect_t));
 
@@ -148,16 +153,17 @@ void regist_to_other_server(const char *ip, const int port)
 	}
 }
 
-void start_listene(int port)
+static void start_listene()
 {
 	uv_tcp_init(uv_default_loop(), &connector_server);
 	uv_tcp_bind(&connector_server, uv_ip4_addr(IP_BILLSERVER.c_str(), PORT_BILLSERVER));
 	uv_listen((uv_stream_t*)&connector_server, 12, on_new_connection);
 
+	LLog("data_server start at: %s %d\n", IP_BILLSERVER.c_str(), PORT_BILLSERVER);
 }
 
 
-void start_connector(int port)
+void start_connector()
 {
 	uv_mutex_init(&sock_id_mutex);
 	uv_rwlock_init(&id_client_map_rwlock);
@@ -166,7 +172,7 @@ void start_connector(int port)
 	regist_to_other_server(IP_DISPATCHLOGSERVER.c_str(), PORT_DISPATCHLOGSERVER);
 	regist_to_other_server(IP_DATASERVER.c_str(), PORT_DATASERVER);
 
-	start_listene(port);	
+	start_listene();	
 
 	uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 	

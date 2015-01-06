@@ -33,6 +33,8 @@ std::unordered_map<unsigned int, Sock*> id_map;
 std::unordered_map<uv_tcp_t*, Sock*> client_map;
 std::unordered_map<uv_tcp_t*, ServerSock*> server_map;
 
+static void regist_to_other_server(const char *ip, const int port);
+
 static int get_sock_id()
 {
 	static unsigned int sock_id = 0;
@@ -45,9 +47,7 @@ static int get_sock_id()
 }
 
 
-
-
-void on_new_connection(uv_stream_t *server, int status)
+static void on_new_connection(uv_stream_t *server, int status)
 {
     if (status == -1) {
         // error!
@@ -73,11 +73,8 @@ void on_new_connection(uv_stream_t *server, int status)
 	
 }
 
-void on_connect_other_server(uv_connect_t* req, int status)
-{
-	printf("-- client on_connect status: %d!\n", status);
-	
-	
+static void on_connect_other_server(uv_connect_t* req, int status)
+{	
 	if(status == 0)
 	{
 		uv_read_start((uv_stream_t*)req->handle, alloc_buf, read_data);
@@ -94,6 +91,8 @@ void on_connect_other_server(uv_connect_t* req, int status)
 		int msg = SOCKTYPE_DISPATCHLOGSERVER;
 		SOCKMSG *registMsg = new SOCKMSG(sock, CMD_REGIST, 0, (char*)&msg, packLen);
 		rpc_send_msg(registMsg);
+
+		LLog("regist to gate_server OK!\n");
 	}
 	else
 	{
@@ -104,28 +103,28 @@ void on_connect_other_server(uv_connect_t* req, int status)
 	
 }
 
-void regist_to_other_server(const char *ip, const int port)
+static void regist_to_other_server(const char *ip, const int port)
 {
-	std::cout << "connect: " << ip << ":" << port << std::endl;
 	static uv_connect_t conn_gate_req;
 	uv_tcp_init(uv_default_loop(), &connector_connect);
 	uv_tcp_connect(&conn_gate_req, (uv_tcp_t*)&connector_connect, uv_ip4_addr(ip, port), on_connect_other_server);
 }
 
-void start_listene(int port)
+static void start_listene()
 {
 	uv_tcp_init(uv_default_loop(), &connector_server);
 	uv_tcp_bind(&connector_server, uv_ip4_addr(IP_DISPATCHLOGSERVER.c_str(), PORT_DISPATCHLOGSERVER));
 	uv_listen((uv_stream_t*)&connector_server, 12, on_new_connection);
-
+	
+	LLog("dispatch_log_server start at: %s %d\n", IP_DISPATCHLOGSERVER.c_str(), PORT_DISPATCHLOGSERVER);
 }
 
-void start_connector(int port)
+void start_connector()
 {
 	uv_mutex_init(&sock_id_mutex);
 	uv_rwlock_init(&id_client_map_rwlock);
 
-	start_listene(port);
+	start_listene();
 
 	regist_to_other_server(IP_GATESERVER.c_str(), PORT_GATESERVER);
 	

@@ -42,11 +42,10 @@ void Regist::HandleMsg(SOCKMSG* msg)
 		server_map[(uv_tcp_t*)msg->sock->handler] = new ServerSock(*msg->sock, *(SOCKTYPE*)msg->msg, "hahaha", 100);
 		break;
 	default:
-		
 		break;
 	}
 	
-	LLog("server type: %d %d\n", server_map[(uv_tcp_t*)msg->sock->handler]->socktype, server_map[(uv_tcp_t*)msg->sock->handler]->port);
+	LLog("other server type: %d %d\n", server_map[(uv_tcp_t*)msg->sock->handler]->socktype, server_map[(uv_tcp_t*)msg->sock->handler]->port);
 
 	delete msg->sock;
 }

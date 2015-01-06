@@ -2,6 +2,8 @@
 #include "rpc/rpc.h"
 #include "log/log.h"
 #include "connector/connector.h"
+#include <stdlib.h>
+#include <fcntl.h>
 
 uv_buf_t alloc_buf(uv_handle_t* handle, size_t suggested_size)
 {
@@ -161,4 +163,55 @@ void close_cb(uv_handle_t* handle)
 {
 }
 
+
+void getServersInfo()
+{
+	FILE *fp = fopen("./config", "r");
+	if(!fp)
+	{
+		return;
+	}
+
+	char buf[512];
+
+	while(fgets(buf, sizeof(buf), fp))
+	{
+		if(strncmp(buf, "gate", strlen("gate")) == 0)
+		{
+			std::string s = std::string(buf);
+			IP_GATESERVER = s.substr(s.find_first_of("\"")+1,s.find_last_of("\"")-s.find_first_of("\"")-1);
+			s = s.substr(s.find_last_of(" ")+1);
+			PORT_GATESERVER = atoi(s.c_str());
+												
+		}
+		else if(strncmp(buf, "dispatch_log", strlen("dispatch_log")) == 0)
+		{
+			std::string s = std::string(buf);
+			IP_DISPATCHLOGSERVER = s.substr(s.find_first_of("\"")+1,s.find_last_of("\"")-s.find_first_of("\"")-1);
+			s = s.substr(s.find_last_of(" ")+1);
+			PORT_DISPATCHLOGSERVER = atoi(s.c_str());
+		}
+		else if(strncmp(buf, "data", strlen("data")) == 0)
+		{
+			std::string s = std::string(buf);
+			IP_DATASERVER = s.substr(s.find_first_of("\"")+1,s.find_last_of("\"")-s.find_first_of("\"")-1);
+			s = s.substr(s.find_last_of(" ")+1);
+			PORT_DATASERVER = atoi(s.c_str());
+		}
+		else if(strncmp(buf, "bill", strlen("bill")) == 0)
+		{
+			std::string s = std::string(buf);
+			IP_BILLSERVER = s.substr(s.find_first_of("\"")+1,s.find_last_of("\"")-s.find_first_of("\"")-1);
+			s = s.substr(s.find_last_of(" ")+1);
+			PORT_BILLSERVER = atoi(s.c_str());
+		}
+		else if(strncmp(buf, "logic", strlen("logic")) == 0)
+		{
+			std::string s = std::string(buf);
+			IP_LOGICSERVER = s.substr(s.find_first_of("\"")+1,s.find_last_of("\"")-s.find_first_of("\"")-1);
+			s = s.substr(s.find_last_of(" ")+1);
+			PORT_LOGICSERVER = atoi(s.c_str());
+		}
+	}
+}
 

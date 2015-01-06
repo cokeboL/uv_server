@@ -11,4 +11,6 @@ void send_handler(uv_write_t* req, int status);
 
 void close_cb(uv_handle_t* handle);
 
+void getServersInfo();
+
 #endif // _HANDLER_H_

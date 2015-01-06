@@ -23,18 +23,8 @@ extern std::unordered_map<unsigned int, Sock*> id_map;
 extern std::unordered_map<uv_tcp_t*, Sock*> client_map;
 extern std::unordered_map<uv_tcp_t*, ServerSock*> server_map;
 
-//extern uv_tcp_t connector_server;
-//extern uv_tcp_t connector_connect;
-
-
-void on_new_connection(uv_stream_t *server, int status);
-
-void on_connect_gate(uv_connect_t* req, int status);
-
-void start_connector(int port);
+void start_connector(const char *ip, const int port);
 
 void close_connector();
-
-void regist_to_other_server(const char *ip, const int port);
 
 #endif // _CONNECTOR_H_
