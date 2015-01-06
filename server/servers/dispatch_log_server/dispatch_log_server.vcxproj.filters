@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\connector\connector.cpp">
+      <Filter>src\connector</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MsgHandler\MsgHandler.cpp">
+      <Filter>src\MsgHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MsgHandler\Regist\Regist.cpp">
+      <Filter>src\MsgHandler\Regist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MsgHandler\Notify\Notify.cpp">
+      <Filter>src\MsgHandler\Notify</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MsgHandler\Logger\Logger.cpp">
+      <Filter>src\MsgHandler\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\src\handler\handler.cpp">
+      <Filter>src\utils\handler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\src\rpc\rpc.cpp">
+      <Filter>src\utils\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\connector\connector.h">
+      <Filter>src\connector</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MsgHandler\MsgHandler.h">
+      <Filter>src\MsgHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MsgHandler\Regist\Regist.h">
+      <Filter>src\MsgHandler\Regist</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MsgHandler\Notify\Notify.h">
+      <Filter>src\MsgHandler\Notify</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MsgHandler\Logger\Logger.h">
+      <Filter>src\MsgHandler\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\src\handler\handler.h">
+      <Filter>src\utils\handler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\src\rpc\rpc.h">
+      <Filter>src\utils\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\include\commen.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\include\message.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{a811881b-1e81-48ce-9b07-394791393202}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{5bcabaff-94d0-4e75-8f8d-97d40a6fa1a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\connector">
+      <UniqueIdentifier>{38285ee5-4710-46d8-933c-e8102c1eb3cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\MsgHandler">
+      <UniqueIdentifier>{3c59bbf6-a4de-4562-9263-fbc2f3288077}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\MsgHandler\Regist">
+      <UniqueIdentifier>{3ea51ae6-73f5-4a03-882e-713d722be571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\MsgHandler\Notify">
+      <UniqueIdentifier>{e26cf874-4b6a-480d-a41b-d31a8f351f66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\MsgHandler\Logger">
+      <UniqueIdentifier>{aeab6237-6a31-4827-b5ce-63823dc9ca6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils">
+      <UniqueIdentifier>{478d05f8-33dc-468d-9b0b-31a1f7226295}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils\rpc">
+      <UniqueIdentifier>{2e0a6e57-34ff-47ea-a21a-5cc532c2b0aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils\handler">
+      <UniqueIdentifier>{ed60d5f9-a142-4afc-9850-a50002d0f49b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

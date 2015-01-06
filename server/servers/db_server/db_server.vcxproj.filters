@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{99dc339f-dca6-437a-9748-87a0dd36f3f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{43816d1e-fbd0-4697-9d2a-d71c9b2d84ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\connector">
+      <UniqueIdentifier>{55133299-2ce0-49b4-891c-46e9034ad21e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\MsgHandler">
+      <UniqueIdentifier>{9450466c-0014-47d5-8779-797ab1c7c4e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils">
+      <UniqueIdentifier>{32a5f61d-08df-4234-97ed-c3759b80a5ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils\rpc">
+      <UniqueIdentifier>{4e0b80de-5c55-4fa1-9096-19705de21cc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils\log">
+      <UniqueIdentifier>{9b21d104-323e-4ff1-8aca-f2ef26089639}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils\handler">
+      <UniqueIdentifier>{1e7916f6-5142-4c95-8aad-da34456afc2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\MsgHandler\Regist">
+      <UniqueIdentifier>{792f2728-625e-4c8a-9b72-05786271dfa9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\connector\connector.cpp">
+      <Filter>src\connector</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MsgHandler\Regist\Regist.cpp">
+      <Filter>src\MsgHandler\Regist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MsgHandler\MsgHandler.cpp">
+      <Filter>src\MsgHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\src\log\log.cpp">
+      <Filter>src\utils\log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\src\handler\handler.cpp">
+      <Filter>src\utils\handler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\src\rpc\rpc.cpp">
+      <Filter>src\utils\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\connector\connector.h">
+      <Filter>src\connector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\commen.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\message.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MsgHandler\Regist\Regist.h">
+      <Filter>src\MsgHandler\Regist</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MsgHandler\MsgHandler.h">
+      <Filter>src\MsgHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\src\log\log.h">
+      <Filter>src\utils\log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\src\handler\handler.h">
+      <Filter>src\utils\handler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\src\rpc\rpc.h">
+      <Filter>src\utils\rpc</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
