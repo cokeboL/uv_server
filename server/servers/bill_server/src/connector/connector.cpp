@@ -112,7 +112,7 @@ static void on_connect_other_server(uv_connect_t* req, int status)
 		}
 		int packLen = 4;
 		int msg = SOCKTYPE_BILLSERVER;
-		SOCKMSG *registMsg = new SOCKMSG(sock, CMD_REGIST, 0, (char*)&msg, packLen);
+		SockMsg *registMsg = new SockMsg(sock, CMD_REGIST, 0, (char*)&msg, packLen);
 		rpc_send_msg(registMsg);	
 	}
 	else

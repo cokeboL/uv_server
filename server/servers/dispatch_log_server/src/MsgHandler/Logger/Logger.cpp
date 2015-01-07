@@ -9,12 +9,12 @@ Logger *Logger::getInstance()
 }
 */
 
-void Logger::HandleMsg(SOCKMSG* msg)
+void Logger::HandleMsg(SockMsg* msg)
 {
 	record(msg);
 }
 
-void Logger::record(SOCKMSG* msg)
+void Logger::record(SockMsg* msg)
 {
 	std::cout << "id: " << msg->sock->id << " " << msg->cmd << " " << msg->action << " msg: " << msg->msg << std::endl;
 }

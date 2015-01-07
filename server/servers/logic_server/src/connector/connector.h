@@ -19,6 +19,12 @@ extern std::string IP_LOGICSERVER;
 extern uv_mutex_t sock_id_mutex;
 extern uv_rwlock_t id_client_map_rwlock;
 
+extern ServerSock *gGateSock;
+extern ServerSock *gDispatchLogSock;
+extern ServerSock *gDataSock;
+extern ServerSock *gBillSock;
+
+
 extern std::unordered_map<unsigned int, Sock*> id_map;
 extern std::unordered_map<uv_tcp_t*, Sock*> client_map;
 extern std::unordered_map<uv_tcp_t*, ServerSock*> server_map;

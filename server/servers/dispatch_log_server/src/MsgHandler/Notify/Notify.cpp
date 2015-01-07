@@ -12,11 +12,12 @@ Regist *Regist::getInstance()
 }
 */
 
-void Notify::HandleMsg(SOCKMSG* msg)
+void Notify::HandleMsg(SockMsg* msg)
 {
-	int action = *(SOCKTYPE*)msg->action;
+	int action = (SOCKTYPE)msg->action;
 	std::unordered_map<uv_tcp_t*, ServerSock*>::iterator it;
 
+	SockMsg *msg2 = new SockMsg(*msg);
 	switch(action)
 	{
 	case NOTIFY_CHAT:
@@ -25,11 +26,12 @@ void Notify::HandleMsg(SOCKMSG* msg)
 		{
 			if(SOCKTYPE_LOGICSERVER == it->second->socktype)
 			{
-				SOCKMSG *msg = new SOCKMSG(*msg);
-				msg->sock = it->second;
-				rpc_send_msg(msg);
+				msg2->sock = it->second;
+				rpc_send_msg_without_dele(msg2);
 			}
 		}
+		delete msg2;
+
 		break;
 	default:
 		break;

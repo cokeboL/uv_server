@@ -7,7 +7,7 @@ class Regist
 {
 public:
 	//static Regist *getInstance();
-	static void HandleMsg(SOCKMSG* msg);
+	static void HandleMsg(SockMsg* msg);
 };
 
 #endif // _REGIST_H_

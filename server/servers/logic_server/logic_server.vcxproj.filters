@@ -37,8 +37,8 @@
     <Filter Include="src\utils\handler">
       <UniqueIdentifier>{c1523b8f-8025-4d03-8f4c-ef52b7f308a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\MsgHandler\Regist">
-      <UniqueIdentifier>{970001a6-f8d2-47e1-bbe9-5582c6c19319}</UniqueIdentifier>
+    <Filter Include="src\MsgHandler\Notify">
+      <UniqueIdentifier>{b3060488-de10-47db-becc-e94f95557ae2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,9 +51,6 @@
     <ClCompile Include="src\MsgHandler\MsgHandler.cpp">
       <Filter>src\MsgHandler</Filter>
     </ClCompile>
-    <ClCompile Include="src\MsgHandler\Regist\Regist.cpp">
-      <Filter>src\MsgHandler\Regist</Filter>
-    </ClCompile>
     <ClCompile Include="..\utils\src\log\log.cpp">
       <Filter>src\utils\log</Filter>
     </ClCompile>
@@ -62,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="..\utils\src\rpc\rpc.cpp">
       <Filter>src\utils\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MsgHandler\Notify\Notify.cpp">
+      <Filter>src\MsgHandler\Notify</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,9 +77,6 @@
     <ClInclude Include="src\MsgHandler\MsgHandler.h">
       <Filter>src\MsgHandler</Filter>
     </ClInclude>
-    <ClInclude Include="src\MsgHandler\Regist\Regist.h">
-      <Filter>src\MsgHandler\Regist</Filter>
-    </ClInclude>
     <ClInclude Include="..\utils\src\log\log.h">
       <Filter>src\utils\log</Filter>
     </ClInclude>
@@ -88,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="..\utils\src\rpc\rpc.h">
       <Filter>src\utils\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MsgHandler\Notify\Notify.h">
+      <Filter>src\MsgHandler\Notify</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

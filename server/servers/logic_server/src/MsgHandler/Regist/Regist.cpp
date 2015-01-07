@@ -11,7 +11,7 @@ Regist *Regist::getInstance()
 }
 */
 
-void Regist::HandleMsg(SOCKMSG* msg)
+void Regist::HandleMsg(SockMsg* msg)
 {
 	uv_rwlock_wrlock(&id_client_map_rwlock);
 
@@ -32,8 +32,6 @@ void Regist::HandleMsg(SOCKMSG* msg)
 	}
 	
 	LLog("server type: %d %d\n", server_map[(uv_tcp_t*)msg->sock->handler]->socktype, server_map[(uv_tcp_t*)msg->sock->handler]->port);
-
-	delete msg->sock;
 
 	uv_rwlock_wrunlock(&id_client_map_rwlock);
 }

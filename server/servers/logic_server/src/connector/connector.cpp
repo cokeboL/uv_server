@@ -126,7 +126,7 @@ static void on_connect_other_server(uv_connect_t* req, int status)
 		strncpy(buf+8, IP_LOGICSERVER.c_str(), IP_LOGICSERVER.size());
 		int msgLen = IP_LOGICSERVER.size()+9;
 		
-		SOCKMSG *msgOut = new SOCKMSG(sock, CMD_REGIST, 0, buf, msgLen);
+		SockMsg *msgOut = new SockMsg(sock, CMD_REGIST, 0, buf, msgLen);
 		rpc_send_msg(msgOut);
 	}
 	else
@@ -195,7 +195,7 @@ void start_connector(const char *ip, const int port)
 	uv_mutex_init(&sock_id_mutex);
 	uv_rwlock_init(&id_client_map_rwlock);
 
-	start_listene(ip, port);
+	start_listene(IP_LOGICSERVER.c_str(), PORT_LOGICSERVER);
 
 	regist_to_other_server(IP_GATESERVER.c_str(), PORT_GATESERVER);
 	regist_to_other_server(IP_DISPATCHLOGSERVER.c_str(), PORT_DISPATCHLOGSERVER);

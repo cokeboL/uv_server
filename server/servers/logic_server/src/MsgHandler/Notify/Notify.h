@@ -8,7 +8,8 @@ class Notify
 public:
 	//static Regist *getInstance();
 	static void HandleMsg(SockMsg* msg);
-};
 
+	static void Chat(SockMsg* msg);
+};
 
 #endif // _NOTIFY_H_

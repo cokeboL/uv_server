@@ -7,8 +7,8 @@ class Logger
 {
 public:
 	//static Logger *getInstance();
-	static void HandleMsg(SOCKMSG* msg);
-	static void record(SOCKMSG* msg);
+	static void HandleMsg(SockMsg* msg);
+	static void record(SockMsg* msg);
 };
 
 #endif // _LOGGER_H_

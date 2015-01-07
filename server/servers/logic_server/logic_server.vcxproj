@@ -86,7 +86,7 @@
     <ClCompile Include="src\connector\connector.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MsgHandler\MsgHandler.cpp" />
-    <ClCompile Include="src\MsgHandler\Regist\Regist.cpp" />
+    <ClCompile Include="src\MsgHandler\Notify\Notify.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\utils\include\commen.h" />
@@ -96,7 +96,7 @@
     <ClInclude Include="..\utils\src\rpc\rpc.h" />
     <ClInclude Include="src\connector\connector.h" />
     <ClInclude Include="src\MsgHandler\MsgHandler.h" />
-    <ClInclude Include="src\MsgHandler\Regist\Regist.h" />
+    <ClInclude Include="src\MsgHandler\Notify\Notify.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

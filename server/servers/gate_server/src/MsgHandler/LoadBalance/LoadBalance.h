@@ -6,8 +6,8 @@
 class LoadBalance
 {
 public:
-	static void HandleMsg(SOCKMSG* msg);
-	static void SimpleBalance(SOCKMSG* msg);
+	static void HandleMsg(SockMsg* msg);
+	static void SimpleBalance(SockMsg* msg);
 };
 
 #endif // _LOAD_BALANCE_H_

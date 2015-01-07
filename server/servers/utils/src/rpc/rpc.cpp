@@ -13,11 +13,11 @@ static uv_sem_t rpc_recv_queue_sem;
 //static uv_async_t rpc_send_async;
 
 //msg queue
-static std::queue<SOCKMSG*> rpc_recv_queue;
-//static std::queue<SOCKMSG*> rpc_send_queue;
+static std::queue<SockMsg*> rpc_recv_queue;
+//static std::queue<SockMsg*> rpc_send_queue;
 
 /*
-void rpc_push_msg(SOCKMSG* msg)
+void rpc_push_msg(SockMsg* msg)
 {
 	uv_mutex_lock(&rpc_send_queue_mutex);
 	rpc_send_queue.push(msg);
@@ -26,20 +26,32 @@ void rpc_push_msg(SOCKMSG* msg)
 }
 */
 
-void rpc_send_msg(SOCKMSG* msg)
+void rpc_send_msg_without_dele(SockMsg* msg)
 {
 	/*
 	uv_mutex_lock(&rpc_send_queue_mutex);
-	SOCKMSG* msg = rpc_send_queue.front();
+	SockMsg* msg = rpc_send_queue.front();
 	rpc_send_queue.pop();
 	uv_mutex_unlock(&rpc_send_queue_mutex);	
 	*/
-	char *send_buf = (char*)malloc(msg->len+HEAD_LEN);
-	*(short*)send_buf = msg->len+HEAD_LEN;
-	send_buf[2] = msg->cmd;
-	send_buf[3] = msg->action;
-	memcpy(send_buf+4, msg->msg, msg->len);
-
+	char *send_buf;
+	if(msg->error)
+	{
+		send_buf = (char*)malloc(msg->len+HEAD_LEN+2);
+		*(short*)send_buf = msg->len+HEAD_LEN+2;
+		send_buf[2] = -msg->cmd;
+		send_buf[3] = msg->action;
+		*(short*)(send_buf+4) = msg->error;
+		memcpy(send_buf+6, msg->msg, msg->len+2);
+	}
+	else
+	{
+		send_buf = (char*)malloc(msg->len+HEAD_LEN);
+		*(short*)send_buf = msg->len+HEAD_LEN;
+		send_buf[2] = msg->cmd;
+		send_buf[3] = msg->action;
+		memcpy(send_buf+4, msg->msg, msg->len);
+	}
 	uv_buf_t uv_buf;
 	uv_buf.base = send_buf;
 	uv_buf.len = msg->len+HEAD_LEN;
@@ -55,10 +67,15 @@ void rpc_send_msg(SOCKMSG* msg)
 			//free(write_req);
 		}
 	}
-		
+}
+
+void rpc_send_msg(SockMsg* msg)
+{
+	rpc_send_msg_without_dele(msg);
 	delete msg;
 }
-void rpc_push_recv_msg(SOCKMSG* msg)
+
+void rpc_push_recv_msg(SockMsg* msg)
 {
 	uv_mutex_lock(&rpc_recv_queue_mutex);
 	rpc_recv_queue.push(msg);
@@ -74,7 +91,7 @@ static void rpc_recv_loop(uv_work_t *req)
 		uv_sem_wait(&rpc_recv_queue_sem);
 		
 		uv_mutex_lock(&rpc_recv_queue_mutex);
-		SOCKMSG* msg = rpc_recv_queue.front();
+		SockMsg* msg = rpc_recv_queue.front();
 		
 		uv_mutex_unlock(&rpc_recv_queue_mutex);
 
@@ -96,7 +113,7 @@ void rpc_send_loop(uv_async_t *handle, int status )
 			uv_sleep(5);
 		 	continue;
 		 }
-		SOCKMSG* msg = rpc_send_queue.front();
+		SockMsg* msg = rpc_send_queue.front();
 		rpc_send_queue.pop();
 		uv_mutex_unlock(&rpc_send_queue_mutex);	
 

@@ -42,7 +42,8 @@ public:
 		len_total(0), 
 		len_readed(0), 
 		buf(0), 
-		handler(client)
+		handler(client),
+		legal(true)
 	{
 	}
 
@@ -52,6 +53,7 @@ public:
 	int len_readed;
 	char* buf;
 	uv_tcp_t* handler;
+	bool legal;
 };
 
 class ServerSock: public Sock
@@ -81,15 +83,16 @@ public:
 };
 
 #define HEAD_LEN 4
-class SOCKMSG
+class SockMsg
 {
 public:
-	SOCKMSG(Sock *sock_, char cmd_, char action_, const char *msg_, int len_):
+	SockMsg(Sock *sock_, char cmd_, char action_, const char *msg_, int len_):
 		sock(sock_),
 		cmd(cmd_),
 		action(action_),
 		msg(0),
-		len(len_)
+		len(len_),
+		error(0)
 	{
 		if(len>0)
 		{
@@ -98,20 +101,36 @@ public:
 		}
 	}
 
-	SOCKMSG(SOCKMSG &sockmsg):
-		sock(sockmsg.sock),
-		cmd(sockmsg.cmd),
-		action(sockmsg.action),
-		len(sockmsg.len)
+	SockMsg(Sock *sock_, char cmd_, char action_, const char *msg_, int len_, short error_):
+		sock(sock_),
+		cmd(cmd_),
+		action(action_),
+		msg(0),
+		len(len_),
+		error(error_)
 	{
 		if(len>0)
 		{
 			msg = new char[len];
-			memcpy(msg, sockmsg.msg, len);
+			memcpy(msg, msg_, len);
 		}
 	}
 
-	~SOCKMSG()
+	SockMsg(SockMsg &SockMsg):
+		sock(SockMsg.sock),
+		cmd(SockMsg.cmd),
+		action(SockMsg.action),
+		len(SockMsg.len),
+		error(0)
+	{
+		if(len>0)
+		{
+			msg = new char[len];
+			memcpy(msg, SockMsg.msg, len);
+		}
+	}
+
+	~SockMsg()
 	{
 		delete msg;
 	}
@@ -119,7 +138,8 @@ public:
 	Sock *sock;
 	int len;
 	char *msg;
-	unsigned char cmd;
+	short error;
+	char cmd; //when cmd<0, the first 2 bytes of msg marks the error, error = *(short*)msg
 	unsigned char action;
 };
 

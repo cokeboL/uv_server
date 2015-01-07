@@ -3,17 +3,17 @@
 #include "connector/connector.h"
 #include "rpc/rpc.h"
 
-void LoadBalance::HandleMsg(SOCKMSG* msg)
+void LoadBalance::HandleMsg(SockMsg* msg)
 {
 	SimpleBalance(msg);
 }
 
-void LoadBalance::SimpleBalance(SOCKMSG* msg)
+void LoadBalance::SimpleBalance(SockMsg* msg)
 {
 	static unsigned char balanceIdx = 0;
 	if(gLogicSocks.size() <= 0)
 	{
-		SOCKMSG *msg = new SOCKMSG(msg->sock, CMD_CLIENTREGIST, 0, 0, 0);
+		SockMsg *msg = new SockMsg(msg->sock, CMD_CLIENTREGIST, 0, 0, 0);
 		rpc_send_msg(msg);
 		return;
 	}
@@ -32,7 +32,7 @@ void LoadBalance::SimpleBalance(SOCKMSG* msg)
 		
 		int len = gLogicSocks.at(balanceIdx)->ip.size()+5;
 		
-		SOCKMSG *msgOut = new SOCKMSG(msg->sock, CMD_CLIENTREGIST, 0, buf, len);
+		SockMsg *msgOut = new SockMsg(msg->sock, CMD_CLIENTREGIST, 0, buf, len);
 		rpc_send_msg(msgOut);
 
 		balanceIdx++;

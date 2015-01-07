@@ -1,7 +1,7 @@
 #include "MsgHandler/MsgHandler.h"
 #include "Regist/Regist.h"
 
-void MsgHandler::HandleMsg(SOCKMSG* msg)
+void MsgHandler::HandleMsg(SockMsg* msg)
 {
 	switch(msg->cmd){
 	case CMD_REGIST:

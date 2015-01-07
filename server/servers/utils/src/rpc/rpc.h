@@ -3,11 +3,13 @@
 
 #include "commen.h"
 
-//void rpc_push_msg(SOCKMSG*);
+//void rpc_push_msg(SockMsg*);
 
-void rpc_send_msg(SOCKMSG* msg);
+void rpc_send_msg_without_dele(SockMsg* msg);
 
-void rpc_push_recv_msg(SOCKMSG*);
+void rpc_send_msg(SockMsg* msg);
+
+void rpc_push_recv_msg(SockMsg*);
 
 void start_rpc();
 

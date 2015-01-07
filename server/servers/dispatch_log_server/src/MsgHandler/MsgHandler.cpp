@@ -1,9 +1,9 @@
 #include "MsgHandler/MsgHandler.h"
-#include "Regist/Regist.h"
-#include "Logger/Logger.h"
-#include "Notify/Notify.h"
+#include "MsgHandler/Regist/Regist.h"
+#include "MsgHandler/Logger/Logger.h"
+#include "MsgHandler/Notify/Notify.h"
 
-void MsgHandler::HandleMsg(SOCKMSG* msg)
+void MsgHandler::HandleMsg(SockMsg* msg)
 {
 	switch(msg->cmd){
 	case CMD_REGIST:
@@ -11,6 +11,9 @@ void MsgHandler::HandleMsg(SOCKMSG* msg)
 		break;
 	case CMD_INIT:
 
+		break;
+	case CMD_NOTIFY:
+		Notify::HandleMsg(msg);
 		break;
 	case CMD_LOG:
 		Logger::HandleMsg(msg);

@@ -2,7 +2,7 @@
 #include "MsgHandler/Regist/Regist.h"
 #include "MsgHandler/LoadBalance/LoadBalance.h"
 
-void MsgHandler::HandleMsg(SOCKMSG* msg)
+void MsgHandler::HandleMsg(SockMsg* msg)
 {
 	switch(msg->cmd){
 	case CMD_REGIST:
