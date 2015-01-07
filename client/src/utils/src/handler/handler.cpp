@@ -55,7 +55,7 @@ void read_data(uv_stream_t* handle, ssize_t nread, uv_buf_t buf)
 	}
 
 	int i = 0;
-	unsigned char cmd = 0;
+	char cmd = 0;
 	unsigned char action = 0;
 	unsigned int len = 0;
 	while(i < nread)
@@ -73,7 +73,7 @@ void read_data(uv_stream_t* handle, ssize_t nread, uv_buf_t buf)
 				if(sock->len_readed == pack_head_bytes)
 				{
 					sock->len_total = *(short*)buf.base;	
-					cmd = *(unsigned char*)(buf.base+pack_len_bytes);
+					cmd = *(char*)(buf.base+pack_len_bytes);
 					action = *(unsigned char*)(buf.base+pack_len_bytes+1);
 					if(sock->len_total > (1<<28) )
 					{
@@ -113,13 +113,19 @@ void read_data(uv_stream_t* handle, ssize_t nread, uv_buf_t buf)
 			*/
 		case pack_msg_readed:
 			int len = sock->len_total - pack_head_bytes;
-
-			SOCKMSG *sock_msg = new SOCKMSG(sock, cmd, action, sock->buf, len);
+			if(cmd >= 0)
+			{
+				SockMsg *sock_msg = new SockMsg(sock, cmd, action, sock->buf, len);
+				rpc_push_recv_msg(sock_msg);
+			}
+			else
+			{
+				SockMsg *sock_msg = new SockMsg(sock, -cmd, action, sock->buf+2, len-2, *(short*)sock->buf);
+				rpc_push_recv_msg(sock_msg);
+			}
 
 			free(sock->buf);
 			sock->buf = 0;
-
-			rpc_push_recv_msg(sock_msg);
 			
 			sock->status = pack_len_not_readed;
 			sock->len_readed = 0;

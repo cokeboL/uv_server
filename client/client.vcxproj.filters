@@ -40,6 +40,9 @@
     <Filter Include="src\MsgHandler\RegistAndGetLogicInfo">
       <UniqueIdentifier>{619308bd-3a32-424c-96c7-6d33c8edf825}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\MsgHandler\Notify">
+      <UniqueIdentifier>{e00f1767-096b-48de-93bd-50d8d3a79147}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\connector\connector.h">
@@ -66,6 +69,9 @@
     <ClInclude Include="src\MsgHandler\RegistAndGetLogicInfo\RegistAndGetLogicInfo.h">
       <Filter>src\MsgHandler\RegistAndGetLogicInfo</Filter>
     </ClInclude>
+    <ClInclude Include="src\MsgHandler\Notify\Notify.h">
+      <Filter>src\MsgHandler\Notify</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -85,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="src\MsgHandler\RegistAndGetLogicInfo\RegistAndGetLogicInfo.cpp">
       <Filter>src\MsgHandler\RegistAndGetLogicInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MsgHandler\Notify\Notify.cpp">
+      <Filter>src\MsgHandler\Notify</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,13 +1,15 @@
 #include "MsgHandler/MsgHandler.h"
 #include "MsgHandler/RegistAndGetLogicInfo/RegistAndGetLogicInfo.h"
+#include "MsgHandler/Notify/Notify.h"
 
-void MsgHandler::HandleMsg(SOCKMSG* msg)
+void MsgHandler::HandleMsg(SockMsg* msg)
 {
-	int port = *(int*)msg->msg;
-	char ip[16] = {0};
 	switch(msg->cmd){
 	case CMD_CLIENTREGIST:
 		RegistAndGetLogicInfo::HandleMsg(msg);
+		break;
+	case CMD_NOTIFY:
+		Notify::HandleMsg(msg);
 		break;
 	default:
 		break;

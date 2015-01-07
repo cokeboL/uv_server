@@ -6,7 +6,7 @@
 class RegistAndGetLogicInfo
 {
 public:
-	static void HandleMsg(SOCKMSG* msg);
+	static void HandleMsg(SockMsg* msg);
 };
 
 #endif // _REGISTANDGETLOGICINFO_H_

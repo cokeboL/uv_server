@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClInclude Include="src\connector\connector.h" />
     <ClInclude Include="src\MsgHandler\MsgHandler.h" />
+    <ClInclude Include="src\MsgHandler\Notify\Notify.h" />
     <ClInclude Include="src\MsgHandler\RegistAndGetLogicInfo\RegistAndGetLogicInfo.h" />
     <ClInclude Include="src\utils\include\commen.h" />
     <ClInclude Include="src\utils\include\message.h" />
@@ -95,6 +96,7 @@
     <ClCompile Include="src\connector\connector.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MsgHandler\MsgHandler.cpp" />
+    <ClCompile Include="src\MsgHandler\Notify\Notify.cpp" />
     <ClCompile Include="src\MsgHandler\RegistAndGetLogicInfo\RegistAndGetLogicInfo.cpp" />
     <ClCompile Include="src\utils\src\handler\handler.cpp" />
     <ClCompile Include="src\utils\src\rpc\rpc.cpp" />

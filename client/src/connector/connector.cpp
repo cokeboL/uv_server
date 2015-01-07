@@ -80,7 +80,7 @@ static void on_connect_server(uv_connect_t* req, int status)
 		uv_read_start((uv_stream_t*)req->handle, alloc_buf, read_data);
 
 		uv_tcp_t *client = (uv_tcp_t*)req->handle;
-		ServerSock* sock = new ServerSock(get_sock_id(), client, SOCKTYPE_GATESERVER, 0, 0);
+		ServerSock* sock = new ServerSock(get_sock_id(), client, SOCKTYPE_GATESERVER, std::string("127.0.0.1"), 7401);
 		uv_rwlock_wrlock(&id_client_map_rwlock);
 		server_map[client] = sock;
 		uv_rwlock_wrunlock(&id_client_map_rwlock);
@@ -90,8 +90,8 @@ static void on_connect_server(uv_connect_t* req, int status)
 		SESSION_KEY.c_str();
 		int packLen = 4;
 		int msg = SOCKTYPE_DISPATCHLOGSERVER;
-		SOCKMSG *registMsg = new SOCKMSG(sock, CMD_CLIENTREGIST, 0, SESSION_KEY.c_str(), SESSION_KEY.size());
-		rpc_send_msg(registMsg);
+		//SockMsg *registMsg = new SockMsg(sock, CMD_CLIENTREGIST, 0, SESSION_KEY.c_str(), SESSION_KEY.size());
+		//rpc_send_msg(registMsg);
 
 		LLog("regist to gate_server OK!\n");
 	}
@@ -99,7 +99,7 @@ static void on_connect_server(uv_connect_t* req, int status)
 	{
 		uv_sleep(100);
 		uv_close((uv_handle_t*)&connector_connect, 0);
-		regist_to_server(IP_GATESERVER.c_str(), PORT_GATESERVER);
+		regist_to_server(IP_GATESERVER.c_str(), 7401);
 	}
 	
 }
@@ -117,7 +117,8 @@ void start_connector()
 	uv_mutex_init(&sock_id_mutex);
 	uv_rwlock_init(&id_client_map_rwlock);
 
-	regist_to_server(IP_GATESERVER.c_str(), PORT_GATESERVER);
+	//regist_to_server(IP_GATESERVER.c_str(), PORT_GATESERVER);
+	regist_to_server("192.168.10.152", 7401);
 	
 	uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 	

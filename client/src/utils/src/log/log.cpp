@@ -11,6 +11,6 @@ void record_log(int level, char *msg)
 	sprintf(msgBuf, "[gate server %d] file %s, line %d: %s", level, __FILE__, __LINE__, msg);
 	int packLen = strlen(msgBuf)+1+4;
 
-	SOCKMSG *logMsg = new SOCKMSG(gDispatchLogSock, CMD_LOG, 0, msgBuf, packLen);
+	SockMsg *logMsg = new SockMsg(gDispatchLogSock, CMD_LOG, 0, msgBuf, packLen);
 	rpc_send_msg(logMsg);
 }
