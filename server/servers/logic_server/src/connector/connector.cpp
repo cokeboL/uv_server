@@ -82,7 +82,7 @@ static void on_connect_other_server(uv_connect_t* req, int status)
 		uv_read_start((uv_stream_t*)req->handle, alloc_buf, read_data);
 		
 		uv_tcp_t *client = (uv_tcp_t*)req->handle;
-		ServerSock* sock = new ServerSock(get_sock_id(), client, SOCKTYPE_GATESERVER, 0, 0);
+		ServerSock* sock = new ServerSock(get_sock_id(), client, SOCKTYPE_GATESERVER, IP_GATESERVER, PORT_GATESERVER);
 		uv_rwlock_wrlock(&id_client_map_rwlock);
 		server_map[client] = sock;
 		uv_rwlock_wrunlock(&id_client_map_rwlock);
@@ -90,31 +90,44 @@ static void on_connect_other_server(uv_connect_t* req, int status)
 		if((void*)&connector_gate_connect == (void*)req->handle)
 		{
 			gGateSock = sock;
+			sock->ip = IP_GATESERVER;
+			sock->port = PORT_GATESERVER;
 			sock->socktype = SOCKTYPE_GATESERVER;
 			LLog("regist to gate_server OK!\n");
 		}
 		else if((void*)&connector_dispatch_log_connect == (void*)req->handle)
 		{
 			gDispatchLogSock = sock;
+			sock->ip = IP_DISPATCHLOGSERVER;
+			sock->port = PORT_DISPATCHLOGSERVER;
 			sock->socktype = SOCKTYPE_DISPATCHLOGSERVER;
 			LLog("regist to dispatch_log_server OK!\n");
 		}
 		else if((void*)&connector_db_connect == (void*)req->handle)
 		{
 			gDataSock = sock;
+			sock->ip = IP_DATASERVER;
+			sock->port = PORT_DATASERVER;
 			sock->socktype = SOCKTYPE_DATASERVER;
 			LLog("regist to data_server OK!\n");
 		}
 		else if((void*)&connector_bill_connect == (void*)req->handle)
 		{
 			gBillSock = sock;
+			sock->ip = IP_BILLSERVER;
+			sock->port = PORT_BILLSERVER;
 			sock->socktype = SOCKTYPE_BILLSERVER;
 			LLog("regist to bill_server OK!\n");
 		}
-		int packLen = 4;
-		int msg = SOCKTYPE_LOGICSERVER;
-		SOCKMSG *registMsg = new SOCKMSG(sock, CMD_REGIST, 0, (char*)&msg, packLen);
-		rpc_send_msg(registMsg);
+		
+		char buf[24] = {0};
+		*(int*)(buf) = SOCKTYPE_LOGICSERVER;
+		*(int*)(buf+4) = PORT_LOGICSERVER;
+		strncpy(buf+8, IP_LOGICSERVER.c_str(), IP_LOGICSERVER.size());
+		int msgLen = IP_LOGICSERVER.size()+9;
+		
+		SOCKMSG *msgOut = new SOCKMSG(sock, CMD_REGIST, 0, buf, msgLen);
+		rpc_send_msg(msgOut);
 	}
 	else
 	{
@@ -174,7 +187,7 @@ static void start_listene(const char *ip, const int port)
 	uv_tcp_bind(&connector_server, uv_ip4_addr(ip, port));
 	uv_listen((uv_stream_t*)&connector_server, 12, on_new_connection);
 
-	LLog("gate_server start at: %s %d\n", ip, port);
+	LLog("logic_server start at: %s %d\n", ip, port);
 }
 
 void start_connector(const char *ip, const int port)

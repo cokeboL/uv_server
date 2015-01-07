@@ -25,14 +25,15 @@ void Regist::HandleMsg(SOCKMSG* msg)
 	{
 	case SOCKTYPE_BILLSERVER:
 		extern ServerSock *gBillSock;
-		gBillSock = new ServerSock(*msg->sock, socktype, 0, 0);
+		gBillSock = new ServerSock(*msg->sock, socktype, IP_BILLSERVER, PORT_BILLSERVER);
 		server_map[(uv_tcp_t*)msg->sock->handler] = gBillSock;
 		break;
 	case SOCKTYPE_LOGICSERVER:
-		server_map[(uv_tcp_t*)msg->sock->handler] = new ServerSock(*msg->sock, *(SOCKTYPE*)msg->msg, "hahaha", 100);
+		extern std::vector<ServerSock*> gLogicSocks;
+		gLogicSocks.push_back(new ServerSock(*msg->sock, socktype, std::string(msg->msg+8), *(int*)(msg->msg+4)));
+		server_map[(uv_tcp_t*)msg->sock->handler] = gLogicSocks.at(gLogicSocks.size()-1);
 		break;
 	default:
-		
 		break;
 	}
 	

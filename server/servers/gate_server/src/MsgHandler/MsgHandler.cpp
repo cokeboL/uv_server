@@ -1,5 +1,6 @@
 #include "MsgHandler/MsgHandler.h"
 #include "MsgHandler/Regist/Regist.h"
+#include "MsgHandler/LoadBalance/LoadBalance.h"
 
 void MsgHandler::HandleMsg(SOCKMSG* msg)
 {
@@ -11,6 +12,9 @@ void MsgHandler::HandleMsg(SOCKMSG* msg)
 
 		break;
 	case CMD_LOG:
+		break;
+	case CMD_CLIENTREGIST:
+		LoadBalance::HandleMsg(msg);
 		break;
 	default:
 		break;

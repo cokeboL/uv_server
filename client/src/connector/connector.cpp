@@ -33,7 +33,7 @@ std::unordered_map<unsigned int, Sock*> id_map;
 std::unordered_map<uv_tcp_t*, Sock*> client_map;
 std::unordered_map<uv_tcp_t*, ServerSock*> server_map;
 
-static void regist_to_other_server(const char *ip, const int port);
+static void regist_to_server(const char *ip, const int port);
 
 static int get_sock_id()
 {
@@ -73,23 +73,24 @@ static void on_new_connection(uv_stream_t *server, int status)
 	
 }
 
-static void on_connect_other_server(uv_connect_t* req, int status)
+static void on_connect_server(uv_connect_t* req, int status)
 {	
 	if(status == 0)
 	{
 		uv_read_start((uv_stream_t*)req->handle, alloc_buf, read_data);
 
 		uv_tcp_t *client = (uv_tcp_t*)req->handle;
-		ServerSock* sock = new ServerSock(get_sock_id(), client, SOCKTYPE_GATESERVER, IP_GATESERVER, PORT_GATESERVER);
+		ServerSock* sock = new ServerSock(get_sock_id(), client, SOCKTYPE_GATESERVER, 0, 0);
 		uv_rwlock_wrlock(&id_client_map_rwlock);
 		server_map[client] = sock;
 		uv_rwlock_wrunlock(&id_client_map_rwlock);
 	
 		gGateSock = sock;
-
+		//SESSION_KEY
+		SESSION_KEY.c_str();
 		int packLen = 4;
 		int msg = SOCKTYPE_DISPATCHLOGSERVER;
-		SOCKMSG *registMsg = new SOCKMSG(sock, CMD_REGIST, 0, (char*)&msg, packLen);
+		SOCKMSG *registMsg = new SOCKMSG(sock, CMD_CLIENTREGIST, 0, SESSION_KEY.c_str(), SESSION_KEY.size());
 		rpc_send_msg(registMsg);
 
 		LLog("regist to gate_server OK!\n");
@@ -98,35 +99,25 @@ static void on_connect_other_server(uv_connect_t* req, int status)
 	{
 		uv_sleep(100);
 		uv_close((uv_handle_t*)&connector_connect, 0);
-		regist_to_other_server(IP_GATESERVER.c_str(), PORT_GATESERVER);
+		regist_to_server(IP_GATESERVER.c_str(), PORT_GATESERVER);
 	}
 	
 }
 
-static void regist_to_other_server(const char *ip, const int port)
+static void regist_to_server(const char *ip, const int port)
 {
 	static uv_connect_t conn_gate_req;
 	uv_tcp_init(uv_default_loop(), &connector_connect);
-	uv_tcp_connect(&conn_gate_req, (uv_tcp_t*)&connector_connect, uv_ip4_addr(ip, port), on_connect_other_server);
+	uv_tcp_connect(&conn_gate_req, (uv_tcp_t*)&connector_connect, uv_ip4_addr(ip, port), on_connect_server);
 }
 
-static void start_listene()
-{
-	uv_tcp_init(uv_default_loop(), &connector_server);
-	uv_tcp_bind(&connector_server, uv_ip4_addr(IP_DISPATCHLOGSERVER.c_str(), PORT_DISPATCHLOGSERVER));
-	uv_listen((uv_stream_t*)&connector_server, 12, on_new_connection);
-	
-	LLog("dispatch_log_server start at: %s %d\n", IP_DISPATCHLOGSERVER.c_str(), PORT_DISPATCHLOGSERVER);
-}
 
 void start_connector()
 {
 	uv_mutex_init(&sock_id_mutex);
 	uv_rwlock_init(&id_client_map_rwlock);
 
-	start_listene();
-
-	regist_to_other_server(IP_GATESERVER.c_str(), PORT_GATESERVER);
+	regist_to_server(IP_GATESERVER.c_str(), PORT_GATESERVER);
 	
 	uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 	

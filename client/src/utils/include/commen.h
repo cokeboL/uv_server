@@ -57,26 +57,35 @@ public:
 class ServerSock: public Sock
 {
 public:
-	ServerSock(int _id, uv_tcp_t* client, SOCKTYPE sock_type, std::string &ip_, const int port_): 
+	ServerSock(int _id, uv_tcp_t* client, SOCKTYPE sock_type, const char *ip_, const int port_): 
 		Sock(_id, client),
+		ip(0),
 		port(port_),
 		socktype(sock_type)
 	{
-		ip = ip_;
 	}
-	ServerSock(Sock &sock, SOCKTYPE sock_type, std::string &ip_, const int port_): 
+	ServerSock(Sock &sock, SOCKTYPE sock_type, const char *ip_, const int port_): 
 		Sock(sock),
+		ip(0),
 		port(port_),
 		socktype(sock_type)
 	{
-		ip = ip_;
+		if(ip_)
+		{
+			ip = new char[strlen(ip_)+1];
+			strncpy(ip, ip_, strlen(ip_));
+		}
 	}
 
 	~ServerSock()
 	{
+		if(ip)
+		{
+			delete(ip);
+		}
 	}
 	SOCKTYPE socktype;
-	std::string ip;
+	char *ip;
 	int port;
 };
 

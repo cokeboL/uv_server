@@ -40,6 +40,9 @@
     <Filter Include="src\MsgHandler\Regist">
       <UniqueIdentifier>{bb36d5ab-ff77-44c7-b01b-93e69e6974ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\MsgHandler\LoadBalance">
+      <UniqueIdentifier>{225a662b-05e9-46cd-9bd6-b303bbe073a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\connector\connector.h">
@@ -66,6 +69,9 @@
     <ClInclude Include="src\MsgHandler\Regist\Regist.h">
       <Filter>src\MsgHandler\Regist</Filter>
     </ClInclude>
+    <ClInclude Include="src\MsgHandler\LoadBalance\LoadBalance.h">
+      <Filter>src\MsgHandler\LoadBalance</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -88,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="src\MsgHandler\Regist\Regist.cpp">
       <Filter>src\MsgHandler\Regist</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MsgHandler\LoadBalance\LoadBalance.cpp">
+      <Filter>src\MsgHandler\LoadBalance</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

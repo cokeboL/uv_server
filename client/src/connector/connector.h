@@ -16,11 +16,6 @@ extern std::string IP_DATASERVER;
 extern std::string IP_BILLSERVER;
 extern std::string IP_LOGICSERVER;
 
-extern ServerSock *gDispatchLogSock;
-extern ServerSock *gDataSock;
-extern ServerSock *gBillSock;
-extern std::vector<ServerSock*> gLogicSocks;
-
 extern uv_mutex_t sock_id_mutex;
 extern uv_rwlock_t id_client_map_rwlock;
 

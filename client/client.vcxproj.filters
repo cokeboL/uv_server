@@ -19,15 +19,72 @@
     <Filter Include="include">
       <UniqueIdentifier>{17d2d1af-967c-4855-b9e6-99f53de13cdc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utils">
+      <UniqueIdentifier>{e441acf6-3bb9-4be1-b36e-407441f990dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils\rpc">
+      <UniqueIdentifier>{a8d7eb6c-4a9e-4d70-b789-7e5b34d24a47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils\log">
+      <UniqueIdentifier>{bee93fcb-0aac-4de8-a877-94d6ed904f06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils\handler">
+      <UniqueIdentifier>{3948fc41-c405-4251-8eab-b424ad860e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\MsgHandler">
+      <UniqueIdentifier>{a30482b3-2e1b-4f98-b4a0-5650bb23746b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\connector">
+      <UniqueIdentifier>{84692c62-39e5-44de-81a4-fe9774fa2366}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\MsgHandler\RegistAndGetLogicInfo">
+      <UniqueIdentifier>{619308bd-3a32-424c-96c7-6d33c8edf825}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\commen.h">
+    <ClInclude Include="src\connector\connector.h">
+      <Filter>src\connector</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MsgHandler\MsgHandler.h">
+      <Filter>src\MsgHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\src\log\log.h">
+      <Filter>src\utils\log</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\src\handler\handler.h">
+      <Filter>src\utils\handler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\src\rpc\rpc.h">
+      <Filter>src\utils\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\include\commen.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\include\message.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MsgHandler\RegistAndGetLogicInfo\RegistAndGetLogicInfo.h">
+      <Filter>src\MsgHandler\RegistAndGetLogicInfo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\connector\connector.cpp">
+      <Filter>src\connector</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MsgHandler\MsgHandler.cpp">
+      <Filter>src\MsgHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\src\handler\handler.cpp">
+      <Filter>src\utils\handler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\src\rpc\rpc.cpp">
+      <Filter>src\utils\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MsgHandler\RegistAndGetLogicInfo\RegistAndGetLogicInfo.cpp">
+      <Filter>src\MsgHandler\RegistAndGetLogicInfo</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

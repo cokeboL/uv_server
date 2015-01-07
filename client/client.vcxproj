@@ -41,6 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -51,9 +52,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/include;$(SolutionDir)deps/uv/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/src;$(SolutionDir)deps/uv/include;$(SolutionDir)src/utils/include;$(SolutionDir)src/utils/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -81,10 +82,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\commen.h" />
+    <ClInclude Include="src\connector\connector.h" />
+    <ClInclude Include="src\MsgHandler\MsgHandler.h" />
+    <ClInclude Include="src\MsgHandler\RegistAndGetLogicInfo\RegistAndGetLogicInfo.h" />
+    <ClInclude Include="src\utils\include\commen.h" />
+    <ClInclude Include="src\utils\include\message.h" />
+    <ClInclude Include="src\utils\src\handler\handler.h" />
+    <ClInclude Include="src\utils\src\log\log.h" />
+    <ClInclude Include="src\utils\src\rpc\rpc.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\connector\connector.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MsgHandler\MsgHandler.cpp" />
+    <ClCompile Include="src\MsgHandler\RegistAndGetLogicInfo\RegistAndGetLogicInfo.cpp" />
+    <ClCompile Include="src\utils\src\handler\handler.cpp" />
+    <ClCompile Include="src\utils\src\rpc\rpc.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

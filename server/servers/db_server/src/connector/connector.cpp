@@ -82,7 +82,7 @@ static void on_connect_other_server(uv_connect_t* req, int status)
 		uv_read_start((uv_stream_t*)req->handle, alloc_buf, read_data);
 	
 		uv_tcp_t *client = (uv_tcp_t*)req->handle;
-		ServerSock* sock = new ServerSock(get_sock_id(), client, SOCKTYPE_GATESERVER, 0, 0);
+		ServerSock* sock = new ServerSock(get_sock_id(), client, SOCKTYPE_GATESERVER, IP_GATESERVER, PORT_GATESERVER);
 		uv_rwlock_wrlock(&id_client_map_rwlock);
 		server_map[client] = sock;
 		uv_rwlock_wrunlock(&id_client_map_rwlock);
@@ -90,12 +90,16 @@ static void on_connect_other_server(uv_connect_t* req, int status)
 		if((void*)&connector_gate_connect == (void*)req->handle)
 		{
 			gGateSock = sock;
+			sock->ip = IP_GATESERVER;
+			sock->port = PORT_GATESERVER;
 			sock->socktype = SOCKTYPE_GATESERVER;
 			LLog("regist to gate_server OK!\n");
 		}
 		else if((void*)&connector_dispatch_log_connect == (void*)req->handle)
 		{
 			gDispatchLogSock = sock;
+			sock->ip = IP_DISPATCHLOGSERVER;
+			sock->port = PORT_DISPATCHLOGSERVER;
 			sock->socktype = SOCKTYPE_DISPATCHLOGSERVER;
 			LLog("regist to dispatch_log_server OK!\n");
 		}
