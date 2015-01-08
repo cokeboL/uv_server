@@ -25,22 +25,22 @@ void Regist::HandleMsg(SockMsg* msg)
 	{
 	case SOCKTYPE_DISPATCHLOGSERVER:
 		extern ServerSock *gDispatchLogSock;
-		gDispatchLogSock = new ServerSock(*msg->sock, socktype, IP_DISPATCHLOGSERVER, PORT_DISPATCHLOGSERVER);
+		gDispatchLogSock = New ServerSock(*msg->sock, socktype, IP_DISPATCHLOGSERVER, PORT_DISPATCHLOGSERVER);
 		server_map[(uv_tcp_t*)msg->sock->handler] = gDispatchLogSock;
 		break;
 	case SOCKTYPE_DATASERVER:
 		extern ServerSock *gDataSock;
-		gDataSock = new ServerSock(*msg->sock, socktype, IP_DATASERVER, PORT_DATASERVER);
+		gDataSock = New ServerSock(*msg->sock, socktype, IP_DATASERVER, PORT_DATASERVER);
 		server_map[(uv_tcp_t*)msg->sock->handler] = gDataSock;
 		break;
 	case SOCKTYPE_BILLSERVER:
 		extern ServerSock *gBillSock;
-		gBillSock = new ServerSock(*msg->sock, socktype, IP_BILLSERVER, PORT_BILLSERVER);
+		gBillSock = New ServerSock(*msg->sock, socktype, IP_BILLSERVER, PORT_BILLSERVER);
 		server_map[(uv_tcp_t*)msg->sock->handler] = gBillSock;
 		break;
 	case SOCKTYPE_LOGICSERVER:
 		extern std::vector<ServerSock*> gLogicSocks;
-		gLogicSocks.push_back(new ServerSock(*msg->sock, socktype, std::string(msg->msg+8), *(int*)(msg->msg+4)));
+		gLogicSocks.push_back(New ServerSock(*msg->sock, socktype, std::string(msg->msg+8), *(int*)(msg->msg+4)));
 		server_map[(uv_tcp_t*)msg->sock->handler] = gLogicSocks.at(gLogicSocks.size()-1);
 		break;
 	default:

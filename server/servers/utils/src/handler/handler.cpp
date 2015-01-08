@@ -115,12 +115,12 @@ void read_data(uv_stream_t* handle, ssize_t nread, uv_buf_t buf)
 			int len = sock->len_total - pack_head_bytes;
 			if(cmd >= 0)
 			{
-				SockMsg *sock_msg = new SockMsg(sock, cmd, action, sock->buf, len);
+				SockMsg *sock_msg = New SockMsg(sock, cmd, action, sock->buf, len);
 				rpc_push_recv_msg(sock_msg);
 			}
 			else
 			{
-				SockMsg *sock_msg = new SockMsg(sock, -cmd, action, sock->buf+2, len-2, *(short*)sock->buf);
+				SockMsg *sock_msg = New SockMsg(sock, -cmd, action, sock->buf+2, len-2, *(short*)sock->buf);
 				rpc_push_recv_msg(sock_msg);
 			}
 

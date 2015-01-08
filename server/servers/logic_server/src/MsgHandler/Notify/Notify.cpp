@@ -27,7 +27,7 @@ void Notify::HandleMsg(SockMsg* msg)
 
 void Notify::Chat(SockMsg* msg)
 {
-	SockMsg *msg2 = new SockMsg(*msg);
+	SockMsg *msg2 = New SockMsg(*msg);
 	//client notify msg
 	if(client_map[msg->sock->handler])
 	{

@@ -9,8 +9,12 @@
 
 #ifdef _WIN32
 #define uv_sleep(timeout) Sleep(timeout)
+
+#define New new
 #else
 #define uv_sleep(timeout) usleep(timeout*1000)
+
+#define New new
 #endif
 
 #include "uv.h"
@@ -96,7 +100,7 @@ public:
 	{
 		if(len>0)
 		{
-			msg = new char[len];
+			msg = New char[len];
 			memcpy(msg, msg_, len);
 		}
 	}
@@ -111,7 +115,7 @@ public:
 	{
 		if(len>0)
 		{
-			msg = new char[len];
+			msg = New char[len];
 			memcpy(msg, msg_, len);
 		}
 	}
@@ -125,7 +129,7 @@ public:
 	{
 		if(len>0)
 		{
-			msg = new char[len];
+			msg = New char[len];
 			memcpy(msg, SockMsg.msg, len);
 		}
 	}

@@ -17,7 +17,7 @@ void Notify::HandleMsg(SockMsg* msg)
 	int action = (SOCKTYPE)msg->action;
 	std::unordered_map<uv_tcp_t*, ServerSock*>::iterator it;
 
-	SockMsg *msg2 = new SockMsg(*msg);
+	SockMsg *msg2 = New SockMsg(*msg);
 	switch(action)
 	{
 	case NOTIFY_CHAT:

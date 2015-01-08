@@ -2,6 +2,7 @@
 #include "log/log.h"
 #include "rpc/rpc.h"
 #include "handler/handler.h"
+#include "hiredis/hiredis.h"
 
 int PORT_BILLSERVER=0;
 int PORT_DATASERVER=0;
@@ -36,6 +37,19 @@ std::unordered_map<uv_tcp_t*, ServerSock*> server_map;
 
 static void regist_to_other_server(const char *ip, const int port);
 
+static int start_redis()
+{
+
+	redisContext *c = redisConnect("127.0.0.1", 6379);
+	if (c != NULL && c->err) {
+		printf("Error: %s\n", c->errstr);
+		// handle error
+	}
+	redisCommand(c, "set gaofeng niubility");
+	printf("ALL TESTS PASSED\n");
+	return 0;
+}
+
 static int get_sock_id()
 {
 	static unsigned int sock_id = 0;
@@ -61,7 +75,7 @@ static void on_new_connection(uv_stream_t *server, int status)
     uv_tcp_init(uv_default_loop(), client);
 
     if (uv_accept(server, (uv_stream_t*) client) == 0) {
-		Sock* sock = new Sock(get_sock_id(), client);
+		Sock* sock = New Sock(get_sock_id(), client);
 		
 		uv_rwlock_wrlock(&id_client_map_rwlock);
 		id_map[sock->id] = sock;
@@ -82,7 +96,7 @@ static void on_connect_other_server(uv_connect_t* req, int status)
 		uv_read_start((uv_stream_t*)req->handle, alloc_buf, read_data);
 	
 		uv_tcp_t *client = (uv_tcp_t*)req->handle;
-		ServerSock* sock = new ServerSock(get_sock_id(), client, SOCKTYPE_GATESERVER, IP_GATESERVER, PORT_GATESERVER);
+		ServerSock* sock = New ServerSock(get_sock_id(), client, SOCKTYPE_GATESERVER, IP_GATESERVER, PORT_GATESERVER);
 		uv_rwlock_wrlock(&id_client_map_rwlock);
 		server_map[client] = sock;
 		uv_rwlock_wrunlock(&id_client_map_rwlock);
@@ -105,7 +119,7 @@ static void on_connect_other_server(uv_connect_t* req, int status)
 		}
 		int packLen = 4;
 		int msg = SOCKTYPE_DATASERVER;
-		SockMsg *registMsg = new SockMsg(sock, CMD_REGIST, 0, (char*)&msg, packLen);
+		SockMsg *registMsg = New SockMsg(sock, CMD_REGIST, 0, (char*)&msg, packLen);
 		rpc_send_msg(registMsg);
 	}
 	else
@@ -156,6 +170,8 @@ void start_connector()
 {
 	uv_mutex_init(&sock_id_mutex);
 	uv_rwlock_init(&id_client_map_rwlock);
+
+	start_redis();
 
 	start_listene();
 

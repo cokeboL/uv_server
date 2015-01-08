@@ -25,7 +25,7 @@ void Regist::HandleMsg(SockMsg* msg)
 	{
 	case SOCKTYPE_LOGICSERVER:
 		extern std::vector<ServerSock*> gLogicSocks;
-		gLogicSocks.push_back(new ServerSock(*msg->sock, socktype, std::string(msg->msg+8), *(int*)(msg->msg+4)));
+		gLogicSocks.push_back(New ServerSock(*msg->sock, socktype, std::string(msg->msg+8), *(int*)(msg->msg+4)));
 		server_map[(uv_tcp_t*)msg->sock->handler] = gLogicSocks.at(gLogicSocks.size()-1);
 		break;
 	default:
