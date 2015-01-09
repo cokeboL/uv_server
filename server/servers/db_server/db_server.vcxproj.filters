@@ -46,6 +46,9 @@
     <Filter Include="src\Win32_Interop">
       <UniqueIdentifier>{e296fdd9-8c51-41a3-b33d-516b6f0c659b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\RedisConnector">
+      <UniqueIdentifier>{e0a37686-8b41-44d1-8f9a-fdd20526993a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\connector\connector.cpp">
@@ -68,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RedisConnector\RedisConnector.cpp">
+      <Filter>src\RedisConnector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="src\Win32_Interop\win32_fdapi.h">
       <Filter>src\Win32_Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RedisConnector\RedisConnector.h">
+      <Filter>src\RedisConnector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

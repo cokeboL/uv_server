@@ -2,19 +2,21 @@
 #include "log/log.h"
 #include "rpc/rpc.h"
 #include "handler/handler.h"
-#include "hiredis/hiredis.h"
+
 
 int PORT_BILLSERVER=0;
 int PORT_DATASERVER=0;
 int PORT_GATESERVER=0;
 int PORT_DISPATCHLOGSERVER=0;
 int PORT_LOGICSERVER=0;
+int PORT_REDIS = 0;
 
 std::string IP_GATESERVER;
 std::string IP_DISPATCHLOGSERVER;
 std::string IP_DATASERVER;
 std::string IP_BILLSERVER;
 std::string IP_LOGICSERVER;
+std::string IP_REDIS;
 
 ServerSock *gGateSock;
 ServerSock *gDispatchLogSock;
@@ -37,6 +39,7 @@ std::unordered_map<uv_tcp_t*, ServerSock*> server_map;
 
 static void regist_to_other_server(const char *ip, const int port);
 
+/*
 static int start_redis()
 {
 
@@ -49,6 +52,7 @@ static int start_redis()
 	printf("ALL TESTS PASSED\n");
 	return 0;
 }
+*/
 
 static int get_sock_id()
 {
@@ -153,7 +157,7 @@ static void regist_to_other_server(const char *ip, const int port)
 	else if(port == PORT_DISPATCHLOGSERVER)
 	{
 		uv_tcp_init(uv_default_loop(), &connector_dispatch_log_connect);
-		uv_tcp_connect(conn_gate_req, (uv_tcp_t*)&connector_dispatch_log_connect, uv_ip4_addr("127.0.0.1", port), on_connect_other_server);		
+		uv_tcp_connect(conn_gate_req, (uv_tcp_t*)&connector_dispatch_log_connect, uv_ip4_addr(ip, port), on_connect_other_server);
 	}
 }
 
@@ -171,12 +175,12 @@ void start_connector()
 	uv_mutex_init(&sock_id_mutex);
 	uv_rwlock_init(&id_client_map_rwlock);
 
-	start_redis();
+	regist_to_other_server(IP_GATESERVER.c_str(), PORT_GATESERVER);
+	regist_to_other_server(IP_DISPATCHLOGSERVER.c_str(), PORT_DISPATCHLOGSERVER);
+	//start_redis();
 
 	start_listene();
 
-	regist_to_other_server(IP_GATESERVER.c_str(), PORT_GATESERVER);
-	regist_to_other_server(IP_DISPATCHLOGSERVER.c_str(), PORT_DISPATCHLOGSERVER);
 	
 	uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 	

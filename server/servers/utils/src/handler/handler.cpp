@@ -218,6 +218,13 @@ void getServersInfo()
 			s = s.substr(s.find_last_of(" ")+1);
 			PORT_LOGICSERVER = atoi(s.c_str());
 		}
+		else if (strncmp(buf, "redis", strlen("redis")) == 0)
+		{
+			std::string s = std::string(buf);
+			IP_REDIS = s.substr(s.find_first_of("\"") + 1, s.find_last_of("\"") - s.find_first_of("\"") - 1);
+			s = s.substr(s.find_last_of(" ") + 1);
+			PORT_REDIS = atoi(s.c_str());
+		}
 		else if(strncmp(buf, "session_key", strlen("session_key")) == 0)
 		{
 			std::string s = std::string(buf);

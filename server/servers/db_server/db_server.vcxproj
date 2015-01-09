@@ -89,6 +89,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MsgHandler\MsgHandler.cpp" />
     <ClCompile Include="src\MsgHandler\Regist\Regist.cpp" />
+    <ClCompile Include="src\RedisConnector\RedisConnector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\commen.h" />
@@ -100,6 +101,7 @@
     <ClInclude Include="src\hiredis\hiredis.h" />
     <ClInclude Include="src\MsgHandler\MsgHandler.h" />
     <ClInclude Include="src\MsgHandler\Regist\Regist.h" />
+    <ClInclude Include="src\RedisConnector\RedisConnector.h" />
     <ClInclude Include="src\Win32_Interop\win32_fdapi.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

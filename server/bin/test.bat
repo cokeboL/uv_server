@@ -1,3 +1,5 @@
+start cmd /c redis-server.exe
+
 start cmd /c gate_server.exe "192.168.10.152" 7000
 start cmd /c dispatch_log_server.exe "192.168.10.152" 7100
 start cmd /c db_server.exe "192.168.10.152" 7200

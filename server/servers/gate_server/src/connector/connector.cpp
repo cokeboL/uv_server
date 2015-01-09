@@ -3,22 +3,24 @@
 #include "rpc/rpc.h"
 #include "handler/handler.h"
 
-int PORT_BILLSERVER=0;
-int	PORT_DATASERVER=0;
-int PORT_GATESERVER=0;
-int PORT_DISPATCHLOGSERVER=0;
-int PORT_LOGICSERVER=0;
-
-ServerSock *gDispatchLogSock;
-ServerSock *gDataSock;
-ServerSock *gBillSock;
-std::vector<ServerSock*> gLogicSocks;
+int PORT_BILLSERVER = 0;
+int PORT_DATASERVER = 0;
+int PORT_GATESERVER = 0;
+int PORT_DISPATCHLOGSERVER = 0;
+int PORT_LOGICSERVER = 0;
+int PORT_REDIS = 0;
 
 std::string IP_GATESERVER;
 std::string IP_DISPATCHLOGSERVER;
 std::string IP_DATASERVER;
 std::string IP_BILLSERVER;
 std::string IP_LOGICSERVER;
+std::string IP_REDIS;
+
+ServerSock *gDispatchLogSock;
+ServerSock *gDataSock;
+ServerSock *gBillSock;
+std::vector<ServerSock*> gLogicSocks;
 
 static uv_tcp_t connector_server;
 
